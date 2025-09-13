@@ -56,4 +56,18 @@ if [ "$RC" -ne 0 ]; then
   exit "$RC"
 fi
 
+# 4) Block test edits without waiver, and block deletions always
+CHANGES=$(git diff --cached --name-status || true)
+TEST_EDITS=$(echo "$CHANGES" | awk '$2 ~ /^tests\// {print $1" "$2}')
+if echo "$TEST_EDITS" | grep -E "^D\s" >/dev/null 2>&1; then
+  echo "Guard: Test deletions are not allowed." >&2
+  exit 5
+fi
+if echo "$TEST_EDITS" | grep -E "^(M|A)\s" >/dev/null 2>&1; then
+  if ! rg -n "^approved:\s*true$" .genticode/local/waivers 2>/dev/null | head -n1 >/dev/null; then
+    echo "Guard: Test changes detected without an approved waiver in .genticode/local/waivers/." >&2
+    exit 6
+  fi
+fi
+
 echo "Guard checks passed."
