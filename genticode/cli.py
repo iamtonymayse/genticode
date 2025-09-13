@@ -15,6 +15,7 @@ from .gate import evaluate as gate_evaluate
 from .supply import maybe_cyclonedx_py, maybe_cyclonedx_npm, evaluate_licenses
 from .quality import maybe_run_quality
 from .traceability import load_priority
+from .log import get_logger
 from . import VERSION
 
 
@@ -53,6 +54,7 @@ def cmd_init(_: argparse.Namespace) -> int:
 
 
 def cmd_check(_: argparse.Namespace) -> int:
+    log = get_logger()
     ensure_layout()
     baseline_present = (GC_DIR / "baseline" / "report.json").exists()
     report = build_empty_report(version=VERSION, baseline_present=baseline_present)
@@ -60,6 +62,12 @@ def cmd_check(_: argparse.Namespace) -> int:
     spans = prompt_scan(ROOT)
     manifest = build_manifest(spans)
     write_manifest(GC_DIR / "prompts.manifest.json", manifest)
+    # Emit spans for IDE surfacing (from prompts)
+    spans_out = GC_DIR / "raw/spans.json"
+    spans_out.write_text(json.dumps([
+        {"file": it["file"], "start": it["start"], "end": it["end"], "pack": "prompt"}
+        for it in manifest.get("items", [])
+    ], indent=2) + "\n")
     add_pack_summary(report, pack="prompt", counts={"prompts": len(manifest["items"])})
     # Static pack (Semgrep) — best-effort run
     sg_raw = maybe_run_semgrep(ROOT, GC_DIR / "raw/semgrep.json")

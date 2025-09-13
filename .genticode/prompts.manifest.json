@@ -14,7 +14,7 @@
       "version": "v1"
     },
     {
-      "end": 49,
+      "end": 50,
       "file": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/cli.py",
       "id": "4eb9bed59d02",
       "lints": [
@@ -23,11 +23,11 @@
       ],
       "role": "unknown",
       "source_hash": "4eb9bed59d02",
-      "start": 40,
+      "start": 41,
       "version": "v1"
     },
     {
-      "end": 62,
+      "end": 64,
       "file": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/cli.py",
       "id": "48d9b50eb07e",
       "lints": [
@@ -36,11 +36,11 @@
       ],
       "role": "unknown",
       "source_hash": "48d9b50eb07e",
-      "start": 62,
+      "start": 64,
       "version": "v1"
     },
     {
-      "end": 63,
+      "end": 68,
       "file": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/cli.py",
       "id": "9c7e05e5868a",
       "lints": [
@@ -49,11 +49,37 @@
       ],
       "role": "unknown",
       "source_hash": "9c7e05e5868a",
-      "start": 63,
+      "start": 68,
       "version": "v1"
     },
     {
-      "end": 63,
+      "end": 70,
+      "file": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/cli.py",
+      "id": "adc83b19e793",
+      "lints": [
+        "PROMPT_MISSING_ID",
+        "PROMPT_MISSING_VERSION"
+      ],
+      "role": "unknown",
+      "source_hash": "adc83b19e793",
+      "start": 70,
+      "version": "v1"
+    },
+    {
+      "end": 71,
+      "file": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/cli.py",
+      "id": "9c7e05e5868a",
+      "lints": [
+        "PROMPT_MISSING_ID",
+        "PROMPT_MISSING_VERSION"
+      ],
+      "role": "unknown",
+      "source_hash": "9c7e05e5868a",
+      "start": 71,
+      "version": "v1"
+    },
+    {
+      "end": 71,
       "file": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/cli.py",
       "id": "3b5ad64a06ec",
       "lints": [
@@ -62,7 +88,7 @@
       ],
       "role": "unknown",
       "source_hash": "3b5ad64a06ec",
-      "start": 63,
+      "start": 71,
       "version": "v1"
     },
     {
