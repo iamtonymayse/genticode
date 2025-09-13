@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import shutil
 from pathlib import Path
+import json
 
 
 def baseline_capture(gc_dir: Path) -> int:
@@ -32,3 +33,12 @@ def baseline_clear(gc_dir: Path) -> int:
     print(str(base_dir))
     return 0
 
+
+def load_suppressions(gc_dir: Path) -> list[dict]:
+    sup = gc_dir / "baseline" / "suppressions.json"
+    if not sup.exists():
+        return []
+    try:
+        return json.loads(sup.read_text()) or []
+    except Exception:
+        return []

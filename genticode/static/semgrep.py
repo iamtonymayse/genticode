@@ -5,20 +5,18 @@ import os
 import shutil
 import subprocess
 from pathlib import Path
-from typing import Any
+from typing import Any, Iterable
 
 
-def maybe_run_semgrep(root: Path, out_path: Path, timeout_s: int = 120) -> dict | None:
+def maybe_run_semgrep(root: Path, out_path: Path, timeout_s: int = 120, configs: Iterable[str] | None = None) -> dict | None:
     if shutil.which("semgrep") is None:
         return None
     jobs = max(1, min(4, (os.cpu_count() or 1)))
-    cmd = [
-        "semgrep",
-        "--error",
-        "--config",
-        "p/python",
-        "--config",
-        "p/typescript",
+    cfgs = list(configs) if configs else ["p/python", "p/typescript"]
+    cmd = ["semgrep", "--error"]
+    for c in cfgs:
+        cmd += ["--config", c]
+    cmd += [
         "--json",
         "--timeout",
         str(timeout_s),

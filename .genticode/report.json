@@ -11,32 +11,40 @@
   "packs": [
     {
       "counts": {
-        "prompts": 74
+        "prompts": 138
       },
       "name": "prompt"
+    },
+    {
+      "counts": {
+        "by_severity": {
+          "high": 11
+        },
+        "findings": 0,
+        "secrets": 11
+      },
+      "name": "static"
+    },
+    {
+      "counts": {
+        "by_severity": {},
+        "license_violations": 0,
+        "vulns": 0
+      },
+      "name": "supply"
     },
     {
       "counts": {
         "by_severity": {},
         "findings": 0
       },
-      "name": "static"
-    },
-    {
-      "counts": {
-        "license_violations": 0
-      },
-      "name": "supply"
-    },
-    {
-      "counts": {
-        "findings": 0
-      },
       "name": "quality"
     },
     {
       "counts": {
-        "ac_ids": 0
+        "ac_ids": 0,
+        "covered": 0,
+        "uncovered": 0
       },
       "name": "traceability"
     }

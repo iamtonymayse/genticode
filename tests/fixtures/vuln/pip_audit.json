@@ -1,0 +1,7 @@
+{
+  "vulns": [
+    {"name": "foo", "severity": "HIGH"},
+    {"name": "bar", "severity": "MEDIUM"}
+  ]
+}
+
