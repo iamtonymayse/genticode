@@ -12,6 +12,7 @@ from .supply import maybe_cyclonedx_py, maybe_cyclonedx_npm, evaluate_licenses
 from .supply.vuln import maybe_pip_audit, maybe_npm_audit, normalize_pip_audit, normalize_npm_audit
 from .quality import maybe_run_quality
 from .traceability import load_priority
+from .traceability.parser import scan_test_coverage
 
 
 @dataclass
@@ -99,7 +100,11 @@ def run_quality_pack(root: Path, gc_dir: Path, policy=None) -> dict:
 
 def run_traceability_pack(root: Path, gc_dir: Path, policy=None) -> dict:
     pr = load_priority(root / "PRIORITY.yaml")
-    return {"ac_ids": len(pr.get("ids", []))}
+    ids = pr.get("ids", []) or []
+    cov_map = scan_test_coverage(root, ids)
+    covered = sum(1 for k, v in cov_map.items() if v > 0)
+    uncovered = max(0, len(ids) - covered)
+    return {"ac_ids": len(ids), "covered": covered, "uncovered": uncovered}
 
 
 DEFAULT_PACKS: Dict[str, PackRunner] = {

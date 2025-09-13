@@ -749,7 +749,7 @@
                   "uri": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/orchestrator.py"
                 },
                 "region": {
-                  "startLine": 26
+                  "startLine": 27
                 }
               }
             }
@@ -772,7 +772,7 @@
                   "uri": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/orchestrator.py"
                 },
                 "region": {
-                  "startLine": 26
+                  "startLine": 27
                 }
               }
             }
@@ -794,7 +794,7 @@
                   "uri": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/orchestrator.py"
                 },
                 "region": {
-                  "startLine": 26
+                  "startLine": 27
                 }
               }
             }
@@ -816,7 +816,7 @@
                   "uri": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/orchestrator.py"
                 },
                 "region": {
-                  "startLine": 32
+                  "startLine": 33
                 }
               }
             }
@@ -839,7 +839,7 @@
                   "uri": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/orchestrator.py"
                 },
                 "region": {
-                  "startLine": 32
+                  "startLine": 33
                 }
               }
             }
@@ -861,7 +861,7 @@
                   "uri": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/orchestrator.py"
                 },
                 "region": {
-                  "startLine": 32
+                  "startLine": 33
                 }
               }
             }
@@ -883,7 +883,7 @@
                   "uri": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/orchestrator.py"
                 },
                 "region": {
-                  "startLine": 37
+                  "startLine": 38
                 }
               }
             }
@@ -906,7 +906,7 @@
                   "uri": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/orchestrator.py"
                 },
                 "region": {
-                  "startLine": 37
+                  "startLine": 38
                 }
               }
             }
@@ -928,7 +928,7 @@
                   "uri": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/orchestrator.py"
                 },
                 "region": {
-                  "startLine": 37
+                  "startLine": 38
                 }
               }
             }
@@ -950,7 +950,7 @@
                   "uri": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/orchestrator.py"
                 },
                 "region": {
-                  "startLine": 39
+                  "startLine": 40
                 }
               }
             }
@@ -973,7 +973,7 @@
                   "uri": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/orchestrator.py"
                 },
                 "region": {
-                  "startLine": 39
+                  "startLine": 40
                 }
               }
             }
@@ -995,7 +995,7 @@
                   "uri": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/orchestrator.py"
                 },
                 "region": {
-                  "startLine": 39
+                  "startLine": 40
                 }
               }
             }
@@ -1017,7 +1017,7 @@
                   "uri": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/orchestrator.py"
                 },
                 "region": {
-                  "startLine": 106
+                  "startLine": 111
                 }
               }
             }
@@ -1040,7 +1040,7 @@
                   "uri": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/orchestrator.py"
                 },
                 "region": {
-                  "startLine": 106
+                  "startLine": 111
                 }
               }
             }
@@ -1062,7 +1062,7 @@
                   "uri": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/orchestrator.py"
                 },
                 "region": {
-                  "startLine": 106
+                  "startLine": 111
                 }
               }
             }
@@ -1084,7 +1084,7 @@
                   "uri": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/orchestrator.py"
                 },
                 "region": {
-                  "startLine": 106
+                  "startLine": 111
                 }
               }
             }
@@ -1107,7 +1107,7 @@
                   "uri": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/orchestrator.py"
                 },
                 "region": {
-                  "startLine": 106
+                  "startLine": 111
                 }
               }
             }
@@ -1129,7 +1129,7 @@
                   "uri": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/orchestrator.py"
                 },
                 "region": {
-                  "startLine": 106
+                  "startLine": 111
                 }
               }
             }
@@ -4144,7 +4144,7 @@
                   "uri": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/traceability/parser.py"
                 },
                 "region": {
-                  "startLine": 7
+                  "startLine": 8
                 }
               }
             }
@@ -4167,7 +4167,7 @@
                   "uri": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/traceability/parser.py"
                 },
                 "region": {
-                  "startLine": 7
+                  "startLine": 8
                 }
               }
             }
@@ -4189,7 +4189,7 @@
                   "uri": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/traceability/parser.py"
                 },
                 "region": {
-                  "startLine": 7
+                  "startLine": 8
                 }
               }
             }
@@ -4199,6 +4199,73 @@
           },
           "properties": {
             "id": "b0f006cc143f"
+          },
+          "ruleId": "prompt.lint.prompt_missing_version"
+        },
+        {
+          "level": "note",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/traceability/parser.py"
+                },
+                "region": {
+                  "startLine": 24
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Prompt-like string (role=unknown)"
+          },
+          "properties": {
+            "id": "34a09ad3a32c",
+            "role": "unknown"
+          },
+          "ruleId": "prompt.detected"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/traceability/parser.py"
+                },
+                "region": {
+                  "startLine": 24
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "PROMPT_MISSING_ID"
+          },
+          "properties": {
+            "id": "34a09ad3a32c"
+          },
+          "ruleId": "prompt.lint.prompt_missing_id"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/traceability/parser.py"
+                },
+                "region": {
+                  "startLine": 24
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "PROMPT_MISSING_VERSION"
+          },
+          "properties": {
+            "id": "34a09ad3a32c"
           },
           "ruleId": "prompt.lint.prompt_missing_version"
         },
@@ -4747,7 +4814,7 @@
                   "uri": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_gate.py"
                 },
                 "region": {
-                  "startLine": 48
+                  "startLine": 54
                 }
               }
             }
@@ -4770,7 +4837,7 @@
                   "uri": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_gate.py"
                 },
                 "region": {
-                  "startLine": 48
+                  "startLine": 54
                 }
               }
             }
@@ -4792,7 +4859,7 @@
                   "uri": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_gate.py"
                 },
                 "region": {
-                  "startLine": 48
+                  "startLine": 54
                 }
               }
             }
@@ -4814,7 +4881,7 @@
                   "uri": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_gate.py"
                 },
                 "region": {
-                  "startLine": 48
+                  "startLine": 54
                 }
               }
             }
@@ -4837,7 +4904,7 @@
                   "uri": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_gate.py"
                 },
                 "region": {
-                  "startLine": 48
+                  "startLine": 54
                 }
               }
             }
@@ -4859,7 +4926,7 @@
                   "uri": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_gate.py"
                 },
                 "region": {
-                  "startLine": 48
+                  "startLine": 54
                 }
               }
             }
@@ -4881,7 +4948,7 @@
                   "uri": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_gate.py"
                 },
                 "region": {
-                  "startLine": 49
+                  "startLine": 55
                 }
               }
             }
@@ -4904,7 +4971,7 @@
                   "uri": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_gate.py"
                 },
                 "region": {
-                  "startLine": 49
+                  "startLine": 55
                 }
               }
             }
@@ -4926,7 +4993,7 @@
                   "uri": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_gate.py"
                 },
                 "region": {
-                  "startLine": 49
+                  "startLine": 55
                 }
               }
             }
@@ -4948,7 +5015,7 @@
                   "uri": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_gate.py"
                 },
                 "region": {
-                  "startLine": 49
+                  "startLine": 55
                 }
               }
             }
@@ -4971,7 +5038,7 @@
                   "uri": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_gate.py"
                 },
                 "region": {
-                  "startLine": 49
+                  "startLine": 55
                 }
               }
             }
@@ -4993,7 +5060,7 @@
                   "uri": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_gate.py"
                 },
                 "region": {
-                  "startLine": 49
+                  "startLine": 55
                 }
               }
             }
@@ -5015,7 +5082,7 @@
                   "uri": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_gate.py"
                 },
                 "region": {
-                  "startLine": 51
+                  "startLine": 57
                 }
               }
             }
@@ -5038,7 +5105,7 @@
                   "uri": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_gate.py"
                 },
                 "region": {
-                  "startLine": 51
+                  "startLine": 57
                 }
               }
             }
@@ -5060,7 +5127,7 @@
                   "uri": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_gate.py"
                 },
                 "region": {
-                  "startLine": 51
+                  "startLine": 57
                 }
               }
             }
@@ -5082,7 +5149,7 @@
                   "uri": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_gate.py"
                 },
                 "region": {
-                  "startLine": 54
+                  "startLine": 60
                 }
               }
             }
@@ -5105,7 +5172,7 @@
                   "uri": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_gate.py"
                 },
                 "region": {
-                  "startLine": 54
+                  "startLine": 60
                 }
               }
             }
@@ -5127,7 +5194,7 @@
                   "uri": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_gate.py"
                 },
                 "region": {
-                  "startLine": 54
+                  "startLine": 60
                 }
               }
             }
@@ -5149,7 +5216,7 @@
                   "uri": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_gate.py"
                 },
                 "region": {
-                  "startLine": 54
+                  "startLine": 60
                 }
               }
             }
@@ -5172,7 +5239,7 @@
                   "uri": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_gate.py"
                 },
                 "region": {
-                  "startLine": 54
+                  "startLine": 60
                 }
               }
             }
@@ -5194,7 +5261,7 @@
                   "uri": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_gate.py"
                 },
                 "region": {
-                  "startLine": 54
+                  "startLine": 60
                 }
               }
             }
@@ -8175,6 +8242,274 @@
           },
           "properties": {
             "id": "55212871c7f4"
+          },
+          "ruleId": "prompt.lint.prompt_missing_version"
+        },
+        {
+          "level": "note",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_traceability_matrix.py"
+                },
+                "region": {
+                  "startLine": 9
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Prompt-like string (role=unknown)"
+          },
+          "properties": {
+            "id": "6599b5e547f3",
+            "role": "unknown"
+          },
+          "ruleId": "prompt.detected"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_traceability_matrix.py"
+                },
+                "region": {
+                  "startLine": 9
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "PROMPT_MISSING_ID"
+          },
+          "properties": {
+            "id": "6599b5e547f3"
+          },
+          "ruleId": "prompt.lint.prompt_missing_id"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_traceability_matrix.py"
+                },
+                "region": {
+                  "startLine": 9
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "PROMPT_MISSING_VERSION"
+          },
+          "properties": {
+            "id": "6599b5e547f3"
+          },
+          "ruleId": "prompt.lint.prompt_missing_version"
+        },
+        {
+          "level": "note",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_traceability_matrix.py"
+                },
+                "region": {
+                  "startLine": 12
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Prompt-like string (role=unknown)"
+          },
+          "properties": {
+            "id": "92b0fda9b96a",
+            "role": "unknown"
+          },
+          "ruleId": "prompt.detected"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_traceability_matrix.py"
+                },
+                "region": {
+                  "startLine": 12
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "PROMPT_MISSING_ID"
+          },
+          "properties": {
+            "id": "92b0fda9b96a"
+          },
+          "ruleId": "prompt.lint.prompt_missing_id"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_traceability_matrix.py"
+                },
+                "region": {
+                  "startLine": 12
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "PROMPT_MISSING_VERSION"
+          },
+          "properties": {
+            "id": "92b0fda9b96a"
+          },
+          "ruleId": "prompt.lint.prompt_missing_version"
+        },
+        {
+          "level": "note",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_traceability_scan.py"
+                },
+                "region": {
+                  "startLine": 7
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Prompt-like string (role=unknown)"
+          },
+          "properties": {
+            "id": "65648d510c6c",
+            "role": "unknown"
+          },
+          "ruleId": "prompt.detected"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_traceability_scan.py"
+                },
+                "region": {
+                  "startLine": 7
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "PROMPT_MISSING_ID"
+          },
+          "properties": {
+            "id": "65648d510c6c"
+          },
+          "ruleId": "prompt.lint.prompt_missing_id"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_traceability_scan.py"
+                },
+                "region": {
+                  "startLine": 7
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "PROMPT_MISSING_VERSION"
+          },
+          "properties": {
+            "id": "65648d510c6c"
+          },
+          "ruleId": "prompt.lint.prompt_missing_version"
+        },
+        {
+          "level": "note",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_traceability_scan.py"
+                },
+                "region": {
+                  "startLine": 8
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Prompt-like string (role=unknown)"
+          },
+          "properties": {
+            "id": "fcd5006b0f60",
+            "role": "unknown"
+          },
+          "ruleId": "prompt.detected"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_traceability_scan.py"
+                },
+                "region": {
+                  "startLine": 8
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "PROMPT_MISSING_ID"
+          },
+          "properties": {
+            "id": "fcd5006b0f60"
+          },
+          "ruleId": "prompt.lint.prompt_missing_id"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_traceability_scan.py"
+                },
+                "region": {
+                  "startLine": 8
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "PROMPT_MISSING_VERSION"
+          },
+          "properties": {
+            "id": "fcd5006b0f60"
           },
           "ruleId": "prompt.lint.prompt_missing_version"
         }

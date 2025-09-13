@@ -63,9 +63,32 @@ def evaluate(report: dict, baseline: dict | None, budgets: dict | None = None, p
     else:
         rc = decide(max(0, cur_h - base_h), budget_h, "static")
 
+    # Evaluate Traceability uncovered if budgeted
+    tb = (budgets.get("traceability") if budgets else None) or {}
+    if tb:
+        # current and baseline uncovered
+        def _uncovered(d: dict | None) -> int:
+            if not d:
+                return 0
+            for p in (d.get("packs", []) or []):
+                if p.get("name") == "traceability":
+                    return int((p.get("counts", {}) or {}).get("uncovered", 0))
+            return 0
+
+        cur_u = _uncovered(report)
+        base_u = _uncovered(baseline or {})
+        abs_budget = tb.get("uncovered_max")
+        delta_budget = tb.get("uncovered_delta_max")
+        if phase == "hard" and abs_budget is not None and cur_u > int(abs_budget):
+            rc = max(rc, 2)
+        if phase != "hard" and delta_budget is not None and max(0, cur_u - base_u) > int(delta_budget):
+            rc = max(rc, 1 if phase == "warn" else 2)
+
     # Evaluate other packs by count if budgets provided
     for pack, key in PACK_COUNT_KEYS.items():
         if pack == "static":
+            continue
+        if pack == "traceability":
             continue
         b = budgets.get(pack) if budgets else None
         if not b:

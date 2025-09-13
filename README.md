@@ -1,221 +1,131 @@
-# Genticode 🧬
+Genticode 🧬
 
-> A pragmatic approach to the messy reality of AI-assisted software development
+Policy‑driven guardrails for AI‑assisted coding: one run, one report, one gate.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/yourusername/genticode/graphs/commit-activity)
+Genticode reduces risk and noise when coding with AI. It is IDE‑neutral, CLI‑first, and local‑first. It targets Python and TypeScript/JavaScript parity and produces a single normalized report you can gate on in CI.
 
-## What Actually Is This?
+⸻
 
-Genticode is a lightweight orchestration layer that sits between you and your AI coding assistant, turning chaotic AI-assisted development into something that actually resembles software engineering. 
+What Genticode Does
+	•	Static, Supply, Quality, and Traceability packs run under one policy.
+	•	Single artifact model: .genticode/report.json → transforms to sarif.json and report.html.
+	•	Baselines and budgets: evaluate deltas by default so existing debt does not block you.
+	•	Prompt hygiene: detect prompt‑like strings, enforce IDs/versions, and safe redaction.
 
-We're not here to promise you AGI or claim we've solved hallucinations. We're here because you've probably lost context for the third time today, your AI just confidently imported a library that doesn't exist, and you're wondering why that "simple refactor" just broke seventeen unrelated tests.
+Design sources: see ADDH_v0_9.md, PRD.md, ROADMAP.md, and SPRINT_PLAN.md.
 
-## The Problems We Actually Solve
+⸻
 
-Based on real developer feedback (65% of you are screaming about context loss), here's what Genticode addresses:
+The Lessons Loop ♻️ (central to Genticode)
 
-### 🎯 Direct Hits (We nail these)
-- **Context Amnesia** (~40% improvement) - No more explaining your entire codebase every three messages
-- **The "Wait, What Changed?" Problem** (~35% improvement) - Full branching and versioning of AI interactions
-- **Testing Theater** (~30% improvement) - Enforced test coverage before merging AI contributions
-- **Architectural Drift** (~25% improvement) - Style guides and patterns that actually get followed
+Genticode bakes in a lightweight, local lessons learned loop that turns failed attempts into better future runs without nerfing tests or deleting guardrails.
 
-### 🤝 Solid Assists (We help significantly)
-- **Hallucination Detection** (~20% improvement) - Can't prevent them, but catches most through testing
-- **Security Footguns** (~15% improvement) - Review gates, but you still need security-specific tooling
-- **Integration Hell** (~25% improvement) - Incremental approach that plays nice with existing codebases
+Files (git‑ignored):
 
-### 🤷 Still Working On It
-- **Fundamental AI Limitations** - Can't make your AI understand distributed systems architecture
-- **Privacy/IP Concerns** - If you're using cloud models, this remains your problem
-- **Developer Skill Atrophy** - We might actually make this worse (but your code will work)
+.genticode/local/LESSONS.md           # raw entries per Review sprint
+.genticode/local/LESSONS_CURRENT.md   # merged active set (supersedes older)
+.genticode/local/LESSONS_ACCEPTED.md  # audit trail of applied lessons
+.genticode/local/LESSONS_GUIDE.md     # template and root‑cause method
 
-## Quick Start
+How it works each sprint:
+	1.	Start by reading LESSONS_CURRENT.md and apply its improved instructions and preventive controls.
+	2.	After the Feature sprint, run the Review sprint: re‑run tests and gates.
+	3.	If anything fails, record a concise 5‑Whys root cause, improved instructions, and preventive controls in LESSONS.md, then merge into LESSONS_CURRENT.md (superseding older guidance).
+	4.	If the sprint was accepted and lessons were applied, copy those entries to LESSONS_ACCEPTED.md under the sprint ID.
+	5.	If ACs were not met, reset to the pre-<sprint> tag and retry using the updated lessons.
 
-```bash
-# Installation (coming soon - for now, clone and run locally)
-git clone https://github.com/yourusername/genticode.git
-cd genticode
-pip install -r requirements.txt
+Test‑nerfing safeguards:
+	•	Traceability gates: AC IDs in PRIORITY.yaml must be covered by tests; missing coverage can fail the gate.
+	•	Delta awareness: gates can alert on test deletions or coverage drops for READY ACs.
+	•	Optionally add mutation testing later; never change tests just to go green—improve code or add better tests.
 
-# Initialize in your project
+⸻
+
+Quick Start
+
+# Dev install (local repo)
+python -m venv .venv && source .venv/bin/activate
+pip install -r requirements-dev.txt  # test tooling
+# Initialize Genticode in a project
+make init
 genticode init
+genticode check
+genticode baseline capture
+genticode report --html
+open .genticode/report.html  # macOS
 
-# Start a new AI-assisted feature
-genticode branch feature/user-authentication
+Minimal policy to start (.genticode/policy.yaml):
 
-# Work with your AI (context preserved automatically)
-genticode chat "Implement JWT authentication"
+version: 1
+packs:
+  static: {enabled: true, timeout_s: 600}
+  supply: {enabled: true, timeout_s: 600}
+  quality: {enabled: true, timeout_s: 1800}
+  traceability: {enabled: true, timeout_s: 120}
+severity_map: {info: 0, low: 20, medium: 50, high: 80, critical: 95}
+budgets:
+  secrets: {max_total: 0}
+  licenses: {deny: [AGPL-3.0], fail_on_unknown: true}
+progressive_enforcement: {phase: new_code_only}
 
-# Run tests before merging
-genticode test
 
-# Merge when ready
-genticode merge
-```
+⸻
 
-## Core Features
+Features at a Glance
 
-### 🌳 Branch-Based Development
-Every AI interaction happens in isolated branches. No more "I'll just quickly have the AI refactor this in main."
+Pack	What it does	Outputs
+Static	Semgrep SAST, secrets/PII, API‑misuse curation	findings → report.json, SARIF rules
+Supply	CycloneDX SBOM, license policy, vuln import (pip/npm/OSV)	SBOMs, normalized findings
+Quality	Linters mapped to severities; flake rate tracking	metrics + findings
+Traceability	AC↔tests links from PRIORITY.yaml, coverage and diffs	coverage matrix
 
-### 🧠 Context Preservation
-- Automatic context tracking across sessions
-- Relevant file inclusion without manual copy-paste
-- Architecture and business logic retention
+Prompt hygiene is part of Static/Quality by default: detect prompt‑like strings, maintain a manifest, and enforce IDs/versions/redaction.
 
-### 🧪 Testing Gates
-- Mandatory test execution before merge
-- AI-generated test validation
-- Coverage requirements enforcement
+⸻
 
-### 📝 Style & Architecture Enforcement
-- Project-specific patterns maintained
-- Consistent code style across AI sessions
-- Architectural decision records (ADRs) integration
+What you’ll see on first run
+	•	.genticode/report.json with per‑pack sections and normalized findings.
+	•	.genticode/sarif.json for PR annotations.
+	•	.genticode/report.html static dashboard for local review.
+	•	On first green run, capture a baseline; subsequent runs evaluate delta only.
 
-### 🔍 Full Traceability
-- Every AI decision logged
-- Rollback capabilities
-- Code review integration
+⸻
 
-## Architecture
+Why this is different
+	•	Policy‑driven, not model‑driven. Works with or without a specific AI model.
+	•	Lessons, not lore. The lessons loop makes context cumulative and auditable.
+	•	Gates you can live with. Start in warn, enforce on new code, then hard‑fail when you’re ready.
 
-```
-genticode/
-├── core/
-│   ├── context_manager.py    # Handles context preservation
-│   ├── branch_controller.py  # Git integration and branching
-│   ├── test_runner.py        # Test orchestration
-│   └── ai_interface.py       # AI model abstraction
-├── validators/
-│   ├── style_checker.py      # Style guide enforcement
-│   ├── security_scanner.py   # Basic security checks (extensible)
-│   └── hallucination_detector.py  # Pattern matching for common AI mistakes
-├── config/
-│   └── genticode.yaml        # Project configuration
-└── cli/
-    └── main.py               # CLI interface
-```
+⸻
 
-## Configuration
+Limitations (v0.9)
+	•	IAST is pluggable but off by default.
+	•	Windows support is deferred in 0.x.
+	•	Some advanced checks (e.g., mutation testing) are optional or planned.
 
-`.genticode.yml` in your project root:
+⸻
 
-```yaml
-# Coming soon - full configuration documentation
-ai_model: "gpt-4"  # or "claude", "local-llama", etc.
-context:
-  max_files: 10
-  max_tokens: 8000
-testing:
-  required_coverage: 80
-  frameworks: ["pytest", "jest"]
-style:
-  guide: "path/to/styleguide.md"
-  linters: ["eslint", "black"]
-```
+Contributing
+	•	Read the specs and plan: ADDH_v0_9.md, PRD.md, ROADMAP.md, SPRINT_PLAN.md, AGENTS.md.
+	•	Write tests first; keep coverage ≥95% for changed code.
+	•	Run scripts/guard.sh before pushing; never commit secrets.
+	•	Open a PR with a concise AC checklist and a link to .genticode/report.html if relevant.
 
-## Limitations & Honest Truths
+⸻
 
-- **We don't make AI smarter** - If your AI can't design systems, neither can we
-- **Hallucinations still happen** - We catch many, not all
-- **Not a silver bullet** - Good engineering judgment still required
-- **Performance overhead** - Yes, the branch management adds time
-- **Learning curve** - Another tool in your toolchain
+FAQ
 
-## Roadmap
+Is this tied to any IDE or model?
+No. CLI‑first; IDE extension is optional. Model‑agnostic.
 
-- [ ] **v0.2.0** - Security-specific validation pipelines
-- [ ] **v0.3.0** - Multi-model support (Claude, GPT-4, Llama, etc.)
-- [ ] **v0.4.0** - IDE integrations (VSCode, IntelliJ)
-- [ ] **v0.5.0** - Team collaboration features
-- [ ] **v1.0.0** - Production-ready with enterprise features
+Will this stop hallucinations?
+It reduces impact via tests, prompts hygiene, and gates. It does not change model internals.
 
-## Contributing
+Can it block bad changes?
+Yes. Secrets and license violations are hard gates by default; others can be budgeted and phased.
 
-We need your help. Seriously. This problem space is massive and we're just getting started.
+⸻
 
-### Priority Areas for Contribution
+License
 
-1. **Hallucination Detection Patterns** - Help us build a comprehensive library
-2. **Security Validators** - More eyes on security issues
-3. **Framework Integrations** - Make this work with your stack
-4. **Context Strategies** - Better ways to preserve and transmit context
-5. **Documentation** - Because we're engineers and we hate writing it
-
-### How to Contribute
-
-1. Fork the repo
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Write tests (yes, actually)
-4. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-5. Push to the branch (`git push origin feature/AmazingFeature`)
-6. Open a Pull Request
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
-
-## Community
-
-- **Discord**: [Join our server](https://discord.gg/genticode) (coming soon)
-- **Issues**: [GitHub Issues](https://github.com/yourusername/genticode/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/genticode/discussions)
-- **Twitter**: [@genticode](https://twitter.com/genticode) (coming soon)
-
-## Performance Metrics
-
-From our initial testing with ~100 developers:
-
-- **65% reduction** in context-related rework
-- **40% fewer** AI-generated bugs reaching review
-- **3x faster** identification of hallucinated code
-- **50% improvement** in code consistency across AI sessions
-
-*Your mileage may vary. Significantly.*
-
-## Requirements
-
-- Python 3.8+ (CLI tool)
-- Git 2.0+
-- Your favorite AI coding assistant
-- A healthy skepticism about AI-generated code
-
-## License
-
-MIT - See [LICENSE](LICENSE) file for details
-
-## Acknowledgments
-
-- Every developer who's lost hours to AI context amnesia
-- The brave souls who merged AI code directly to production
-- That one person who actually reads error messages
-
-## FAQ
-
-**Q: Will this replace senior developers?**  
-A: No. It might make junior developers more productive though.
-
-**Q: Does it work with [insert AI model]?**  
-A: If it has an API, we can probably make it work. PRs welcome.
-
-**Q: Is this just another wrapper?**  
-A: Yes, but a useful one. Like Git is "just a wrapper" around your filesystem.
-
-**Q: Why should I trust this with my codebase?**  
-A: You're already trusting AI with your codebase. We're just adding guardrails.
-
----
-
-*Built with frustration, maintained with hope, improved by community.*
-
-**Remember**: AI is a tool, not a replacement for thinking. Genticode just makes it a better tool.
-
----
-
-⭐ Star us on GitHub if this saved you from an AI-induced production incident
-
-🐛 Found a bug? You probably did. [Tell us about it](https://github.com/yourusername/genticode/issues).
-
-🚀 Using Genticode in production? We're equally impressed and concerned. [Let us know how it goes](https://github.com/yourusername/genticode/discussions).
+MIT — see LICENSE.

@@ -144,7 +144,7 @@
       "version": "v1"
     },
     {
-      "end": 26,
+      "end": 27,
       "file": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/orchestrator.py",
       "id": "48d9b50eb07e",
       "lints": [
@@ -153,11 +153,11 @@
       ],
       "role": "unknown",
       "source_hash": "48d9b50eb07e",
-      "start": 26,
+      "start": 27,
       "version": "v1"
     },
     {
-      "end": 32,
+      "end": 33,
       "file": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/orchestrator.py",
       "id": "9c7e05e5868a",
       "lints": [
@@ -166,11 +166,11 @@
       ],
       "role": "unknown",
       "source_hash": "9c7e05e5868a",
-      "start": 32,
+      "start": 33,
       "version": "v1"
     },
     {
-      "end": 37,
+      "end": 38,
       "file": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/orchestrator.py",
       "id": "adc83b19e793",
       "lints": [
@@ -179,11 +179,11 @@
       ],
       "role": "unknown",
       "source_hash": "adc83b19e793",
-      "start": 37,
+      "start": 38,
       "version": "v1"
     },
     {
-      "end": 39,
+      "end": 40,
       "file": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/orchestrator.py",
       "id": "3b5ad64a06ec",
       "lints": [
@@ -192,11 +192,11 @@
       ],
       "role": "unknown",
       "source_hash": "3b5ad64a06ec",
-      "start": 39,
+      "start": 40,
       "version": "v1"
     },
     {
-      "end": 106,
+      "end": 111,
       "file": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/orchestrator.py",
       "id": "9c7e05e5868a",
       "lints": [
@@ -205,11 +205,11 @@
       ],
       "role": "unknown",
       "source_hash": "9c7e05e5868a",
-      "start": 106,
+      "start": 111,
       "version": "v1"
     },
     {
-      "end": 106,
+      "end": 111,
       "file": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/orchestrator.py",
       "id": "9c7e05e5868a",
       "lints": [
@@ -218,7 +218,7 @@
       ],
       "role": "unknown",
       "source_hash": "9c7e05e5868a",
-      "start": 106,
+      "start": 111,
       "version": "v1"
     },
     {
@@ -806,7 +806,7 @@
       "version": "v1"
     },
     {
-      "end": 11,
+      "end": 12,
       "file": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/traceability/parser.py",
       "id": "b0f006cc143f",
       "lints": [
@@ -815,7 +815,20 @@
       ],
       "role": "unknown",
       "source_hash": "b0f006cc143f",
-      "start": 7,
+      "start": 8,
+      "version": "v1"
+    },
+    {
+      "end": 28,
+      "file": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/traceability/parser.py",
+      "id": "34a09ad3a32c",
+      "lints": [
+        "PROMPT_MISSING_ID",
+        "PROMPT_MISSING_VERSION"
+      ],
+      "role": "unknown",
+      "source_hash": "34a09ad3a32c",
+      "start": 24,
       "version": "v1"
     },
     {
@@ -923,71 +936,6 @@
       "version": "v1"
     },
     {
-      "end": 48,
-      "file": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_gate.py",
-      "id": "9c7e05e5868a",
-      "lints": [
-        "PROMPT_MISSING_ID",
-        "PROMPT_MISSING_VERSION"
-      ],
-      "role": "unknown",
-      "source_hash": "9c7e05e5868a",
-      "start": 48,
-      "version": "v1"
-    },
-    {
-      "end": 48,
-      "file": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_gate.py",
-      "id": "3b5ad64a06ec",
-      "lints": [
-        "PROMPT_MISSING_ID",
-        "PROMPT_MISSING_VERSION"
-      ],
-      "role": "unknown",
-      "source_hash": "3b5ad64a06ec",
-      "start": 48,
-      "version": "v1"
-    },
-    {
-      "end": 49,
-      "file": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_gate.py",
-      "id": "9c7e05e5868a",
-      "lints": [
-        "PROMPT_MISSING_ID",
-        "PROMPT_MISSING_VERSION"
-      ],
-      "role": "unknown",
-      "source_hash": "9c7e05e5868a",
-      "start": 49,
-      "version": "v1"
-    },
-    {
-      "end": 49,
-      "file": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_gate.py",
-      "id": "3b5ad64a06ec",
-      "lints": [
-        "PROMPT_MISSING_ID",
-        "PROMPT_MISSING_VERSION"
-      ],
-      "role": "unknown",
-      "source_hash": "3b5ad64a06ec",
-      "start": 49,
-      "version": "v1"
-    },
-    {
-      "end": 51,
-      "file": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_gate.py",
-      "id": "9c7e05e5868a",
-      "lints": [
-        "PROMPT_MISSING_ID",
-        "PROMPT_MISSING_VERSION"
-      ],
-      "role": "unknown",
-      "source_hash": "9c7e05e5868a",
-      "start": 51,
-      "version": "v1"
-    },
-    {
       "end": 54,
       "file": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_gate.py",
       "id": "9c7e05e5868a",
@@ -1003,6 +951,19 @@
     {
       "end": 54,
       "file": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_gate.py",
+      "id": "3b5ad64a06ec",
+      "lints": [
+        "PROMPT_MISSING_ID",
+        "PROMPT_MISSING_VERSION"
+      ],
+      "role": "unknown",
+      "source_hash": "3b5ad64a06ec",
+      "start": 54,
+      "version": "v1"
+    },
+    {
+      "end": 55,
+      "file": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_gate.py",
       "id": "9c7e05e5868a",
       "lints": [
         "PROMPT_MISSING_ID",
@@ -1010,7 +971,59 @@
       ],
       "role": "unknown",
       "source_hash": "9c7e05e5868a",
-      "start": 54,
+      "start": 55,
+      "version": "v1"
+    },
+    {
+      "end": 55,
+      "file": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_gate.py",
+      "id": "3b5ad64a06ec",
+      "lints": [
+        "PROMPT_MISSING_ID",
+        "PROMPT_MISSING_VERSION"
+      ],
+      "role": "unknown",
+      "source_hash": "3b5ad64a06ec",
+      "start": 55,
+      "version": "v1"
+    },
+    {
+      "end": 57,
+      "file": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_gate.py",
+      "id": "9c7e05e5868a",
+      "lints": [
+        "PROMPT_MISSING_ID",
+        "PROMPT_MISSING_VERSION"
+      ],
+      "role": "unknown",
+      "source_hash": "9c7e05e5868a",
+      "start": 57,
+      "version": "v1"
+    },
+    {
+      "end": 60,
+      "file": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_gate.py",
+      "id": "9c7e05e5868a",
+      "lints": [
+        "PROMPT_MISSING_ID",
+        "PROMPT_MISSING_VERSION"
+      ],
+      "role": "unknown",
+      "source_hash": "9c7e05e5868a",
+      "start": 60,
+      "version": "v1"
+    },
+    {
+      "end": 60,
+      "file": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_gate.py",
+      "id": "9c7e05e5868a",
+      "lints": [
+        "PROMPT_MISSING_ID",
+        "PROMPT_MISSING_VERSION"
+      ],
+      "role": "unknown",
+      "source_hash": "9c7e05e5868a",
+      "start": 60,
       "version": "v1"
     },
     {
@@ -1593,6 +1606,58 @@
       "role": "unknown",
       "source_hash": "55212871c7f4",
       "start": 7,
+      "version": "v1"
+    },
+    {
+      "end": 9,
+      "file": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_traceability_matrix.py",
+      "id": "6599b5e547f3",
+      "lints": [
+        "PROMPT_MISSING_ID",
+        "PROMPT_MISSING_VERSION"
+      ],
+      "role": "unknown",
+      "source_hash": "6599b5e547f3",
+      "start": 9,
+      "version": "v1"
+    },
+    {
+      "end": 12,
+      "file": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_traceability_matrix.py",
+      "id": "92b0fda9b96a",
+      "lints": [
+        "PROMPT_MISSING_ID",
+        "PROMPT_MISSING_VERSION"
+      ],
+      "role": "unknown",
+      "source_hash": "92b0fda9b96a",
+      "start": 12,
+      "version": "v1"
+    },
+    {
+      "end": 7,
+      "file": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_traceability_scan.py",
+      "id": "65648d510c6c",
+      "lints": [
+        "PROMPT_MISSING_ID",
+        "PROMPT_MISSING_VERSION"
+      ],
+      "role": "unknown",
+      "source_hash": "65648d510c6c",
+      "start": 7,
+      "version": "v1"
+    },
+    {
+      "end": 8,
+      "file": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_traceability_scan.py",
+      "id": "fcd5006b0f60",
+      "lints": [
+        "PROMPT_MISSING_ID",
+        "PROMPT_MISSING_VERSION"
+      ],
+      "role": "unknown",
+      "source_hash": "fcd5006b0f60",
+      "start": 8,
       "version": "v1"
     }
   ],

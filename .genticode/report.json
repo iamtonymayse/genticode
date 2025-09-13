@@ -11,7 +11,7 @@
   "packs": [
     {
       "counts": {
-        "prompts": 123
+        "prompts": 128
       },
       "name": "prompt"
     },
@@ -42,7 +42,9 @@
     },
     {
       "counts": {
-        "ac_ids": 0
+        "ac_ids": 0,
+        "covered": 0,
+        "uncovered": 0
       },
       "name": "traceability"
     }

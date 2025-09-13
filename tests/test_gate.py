@@ -29,6 +29,12 @@ def test_gate_within_budget_pass():
     assert rc == 0
 
 
+def test_gate_no_baseline_bootstrap():
+    current = {"packs": [{"name": "static", "counts": {"by_severity": {"high": 5}}}]}
+    rc, _ = evaluate(current, None, budgets={"static": {"high": 0}}, phase="new_code_only")
+    assert rc == 0
+
+
 def test_gate_warn_phase_returns_warn_code():
     baseline = {"packs": [{"name": "static", "counts": {"by_severity": {"high": 1}}}]}
     current = {"packs": [{"name": "static", "counts": {"by_severity": {"high": 3}}}]}

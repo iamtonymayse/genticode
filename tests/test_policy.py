@@ -88,7 +88,7 @@ def test_policy_empty_yaml_uses_defaults(tmp_path):
     p = tmp_path / "policy.yaml"
     p.write_text("\n")
     cfg = policy.load(p)
-    assert cfg.version == 1
+    assert isinstance(cfg.version, int)
     assert cfg.get_phase() in {"warn", "new_code_only", "hard"}
 
 

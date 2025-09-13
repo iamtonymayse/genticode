@@ -52,7 +52,7 @@ def test_pack_helper_quality_and_traceability(tmp_path, monkeypatch):
     # traceability reads PRIORITY.yaml
     (tmp_path / "PRIORITY.yaml").write_text("ids:\n  - AC_1\n  - AC_2\n")
     tc = orch.run_traceability_pack(tmp_path, tmp_path / ".genticode")
-    assert tc == {"ac_ids": 2}
+    assert tc["ac_ids"] == 2 and tc["uncovered"] == 2 and tc["covered"] == 0
 
 
 def test_pack_helper_prompt_writes_artifacts(tmp_path, monkeypatch):
