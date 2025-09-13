@@ -598,6 +598,136 @@
       "version": "v1"
     },
     {
+      "end": 29,
+      "file": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/sarif.py",
+      "id": "d147da165a90",
+      "lints": [
+        "PROMPT_MISSING_ID",
+        "PROMPT_MISSING_VERSION"
+      ],
+      "role": "unknown",
+      "source_hash": "d147da165a90",
+      "start": 25,
+      "version": "v1"
+    },
+    {
+      "end": 35,
+      "file": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/sarif.py",
+      "id": "48d9b50eb07e",
+      "lints": [
+        "PROMPT_MISSING_ID",
+        "PROMPT_MISSING_VERSION"
+      ],
+      "role": "unknown",
+      "source_hash": "48d9b50eb07e",
+      "start": 35,
+      "version": "v1"
+    },
+    {
+      "end": 38,
+      "file": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/sarif.py",
+      "id": "a44c690aae73",
+      "lints": [
+        "PROMPT_MISSING_ID",
+        "PROMPT_MISSING_VERSION"
+      ],
+      "role": "unknown",
+      "source_hash": "a44c690aae73",
+      "start": 38,
+      "version": "v1"
+    },
+    {
+      "end": 39,
+      "file": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/sarif.py",
+      "id": "74f93ca3d274",
+      "lints": [
+        "PROMPT_MISSING_ID",
+        "PROMPT_MISSING_VERSION"
+      ],
+      "role": "unknown",
+      "source_hash": "74f93ca3d274",
+      "start": 39,
+      "version": "v1"
+    },
+    {
+      "end": 40,
+      "file": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/sarif.py",
+      "id": "5a89e89f7a67",
+      "lints": [
+        "PROMPT_MISSING_ID",
+        "PROMPT_MISSING_VERSION"
+      ],
+      "role": "unknown",
+      "source_hash": "5a89e89f7a67",
+      "start": 40,
+      "version": "v1"
+    },
+    {
+      "end": 40,
+      "file": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/sarif.py",
+      "id": "f58377754f46",
+      "lints": [
+        "PROMPT_MISSING_ID",
+        "PROMPT_MISSING_VERSION"
+      ],
+      "role": "unknown",
+      "source_hash": "f58377754f46",
+      "start": 40,
+      "version": "v1"
+    },
+    {
+      "end": 56,
+      "file": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/sarif.py",
+      "id": "2af303da1a9a",
+      "lints": [
+        "PROMPT_MISSING_ID",
+        "PROMPT_MISSING_VERSION"
+      ],
+      "role": "unknown",
+      "source_hash": "2af303da1a9a",
+      "start": 56,
+      "version": "v1"
+    },
+    {
+      "end": 56,
+      "file": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/sarif.py",
+      "id": "2af303da1a9a",
+      "lints": [
+        "PROMPT_MISSING_ID",
+        "PROMPT_MISSING_VERSION"
+      ],
+      "role": "unknown",
+      "source_hash": "2af303da1a9a",
+      "start": 56,
+      "version": "v1"
+    },
+    {
+      "end": 57,
+      "file": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/sarif.py",
+      "id": "b2c25869665a",
+      "lints": [
+        "PROMPT_MISSING_ID",
+        "PROMPT_MISSING_VERSION"
+      ],
+      "role": "unknown",
+      "source_hash": "b2c25869665a",
+      "start": 57,
+      "version": "v1"
+    },
+    {
+      "end": 57,
+      "file": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/sarif.py",
+      "id": "b2c25869665a",
+      "lints": [
+        "PROMPT_MISSING_ID",
+        "PROMPT_MISSING_VERSION"
+      ],
+      "role": "unknown",
+      "source_hash": "b2c25869665a",
+      "start": 57,
+      "version": "v1"
+    },
+    {
       "end": 35,
       "file": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/static/semgrep.py",
       "id": "adc83b19e793",
@@ -1177,6 +1307,71 @@
       "role": "unknown",
       "source_hash": "9c7e05e5868a",
       "start": 104,
+      "version": "v1"
+    },
+    {
+      "end": 11,
+      "file": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_sarif.py",
+      "id": "48d9b50eb07e",
+      "lints": [
+        "PROMPT_MISSING_ID",
+        "PROMPT_MISSING_VERSION"
+      ],
+      "role": "unknown",
+      "source_hash": "48d9b50eb07e",
+      "start": 11,
+      "version": "v1"
+    },
+    {
+      "end": 12,
+      "file": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_sarif.py",
+      "id": "648ef9305958",
+      "lints": [
+        "PROMPT_MISSING_ID",
+        "PROMPT_MISSING_VERSION"
+      ],
+      "role": "unknown",
+      "source_hash": "648ef9305958",
+      "start": 12,
+      "version": "v1"
+    },
+    {
+      "end": 15,
+      "file": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_sarif.py",
+      "id": "dea3b12f0d2f",
+      "lints": [
+        "PROMPT_MISSING_ID",
+        "PROMPT_MISSING_VERSION"
+      ],
+      "role": "unknown",
+      "source_hash": "dea3b12f0d2f",
+      "start": 15,
+      "version": "v1"
+    },
+    {
+      "end": 19,
+      "file": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_sarif.py",
+      "id": "2e2c74580f58",
+      "lints": [
+        "PROMPT_MISSING_ID",
+        "PROMPT_MISSING_VERSION"
+      ],
+      "role": "unknown",
+      "source_hash": "2e2c74580f58",
+      "start": 19,
+      "version": "v1"
+    },
+    {
+      "end": 35,
+      "file": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_sarif.py",
+      "id": "a44c690aae73",
+      "lints": [
+        "PROMPT_MISSING_ID",
+        "PROMPT_MISSING_VERSION"
+      ],
+      "role": "unknown",
+      "source_hash": "a44c690aae73",
+      "start": 35,
       "version": "v1"
     },
     {

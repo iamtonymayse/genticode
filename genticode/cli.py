@@ -140,7 +140,7 @@ def cmd_report(args: argparse.Namespace) -> int:
         out.write_text(html)
         print(str(out))
     if args.sarif:
-        sarif = to_sarif(data)
+        sarif = to_sarif(data, GC_DIR)
         out = GC_DIR / "sarif.json"
         write_json(out, sarif)
         print(str(out))
@@ -148,7 +148,7 @@ def cmd_report(args: argparse.Namespace) -> int:
         # Default: do both for convenience.
         html = render_html(data)
         (GC_DIR / "report.html").write_text(html)
-        sarif = to_sarif(data)
+        sarif = to_sarif(data, GC_DIR)
         write_json(GC_DIR / "sarif.json", sarif)
         print(str(GC_DIR / "report.html"))
         print(str(GC_DIR / "sarif.json"))
