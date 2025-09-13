@@ -12,6 +12,7 @@ from .prompt import scan_repo as prompt_scan
 from .prompt.manifest import build_manifest, write_manifest
 from .static import maybe_run_semgrep, normalize_semgrep
 from .gate import evaluate as gate_evaluate
+from .policy import load as load_policy
 from .supply import maybe_cyclonedx_py, maybe_cyclonedx_npm, evaluate_licenses
 from .quality import maybe_run_quality
 from .traceability import load_priority
@@ -56,6 +57,12 @@ def cmd_init(_: argparse.Namespace) -> int:
 def cmd_check(_: argparse.Namespace) -> int:
     log = get_logger()
     ensure_layout()
+    # Load policy
+    try:
+        policy = load_policy(GC_DIR / "policy.yaml")
+    except Exception as e:
+        print(f"Policy error: {e}")
+        policy = None
     baseline_present = (GC_DIR / "baseline" / "report.json").exists()
     report = build_empty_report(version=VERSION, baseline_present=baseline_present)
     # Prompt Hygiene pack scan (MVP)
@@ -107,7 +114,8 @@ def cmd_check(_: argparse.Namespace) -> int:
             baseline = json.loads(base_path.read_text())
         except Exception:
             baseline = None
-    rc, _summary = gate_evaluate(report, baseline)
+    # Use policy budgets if available
+    rc, _summary = gate_evaluate(report, baseline, budgets=(policy.budgets if policy else None))
     print(str(GC_DIR / "report.json"))
     return rc
 

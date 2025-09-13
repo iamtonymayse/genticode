@@ -14,7 +14,7 @@
       "version": "v1"
     },
     {
-      "end": 50,
+      "end": 51,
       "file": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/cli.py",
       "id": "4eb9bed59d02",
       "lints": [
@@ -23,11 +23,11 @@
       ],
       "role": "unknown",
       "source_hash": "4eb9bed59d02",
-      "start": 41,
+      "start": 42,
       "version": "v1"
     },
     {
-      "end": 64,
+      "end": 71,
       "file": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/cli.py",
       "id": "48d9b50eb07e",
       "lints": [
@@ -36,11 +36,11 @@
       ],
       "role": "unknown",
       "source_hash": "48d9b50eb07e",
-      "start": 64,
+      "start": 71,
       "version": "v1"
     },
     {
-      "end": 68,
+      "end": 75,
       "file": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/cli.py",
       "id": "9c7e05e5868a",
       "lints": [
@@ -49,11 +49,11 @@
       ],
       "role": "unknown",
       "source_hash": "9c7e05e5868a",
-      "start": 68,
+      "start": 75,
       "version": "v1"
     },
     {
-      "end": 70,
+      "end": 77,
       "file": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/cli.py",
       "id": "adc83b19e793",
       "lints": [
@@ -62,11 +62,11 @@
       ],
       "role": "unknown",
       "source_hash": "adc83b19e793",
-      "start": 70,
+      "start": 77,
       "version": "v1"
     },
     {
-      "end": 71,
+      "end": 78,
       "file": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/cli.py",
       "id": "9c7e05e5868a",
       "lints": [
@@ -75,11 +75,11 @@
       ],
       "role": "unknown",
       "source_hash": "9c7e05e5868a",
-      "start": 71,
+      "start": 78,
       "version": "v1"
     },
     {
-      "end": 71,
+      "end": 78,
       "file": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/cli.py",
       "id": "3b5ad64a06ec",
       "lints": [
@@ -88,7 +88,7 @@
       ],
       "role": "unknown",
       "source_hash": "3b5ad64a06ec",
-      "start": 71,
+      "start": 78,
       "version": "v1"
     },
     {
@@ -180,6 +180,19 @@
       "role": "unknown",
       "source_hash": "f53f54a64c38",
       "start": 29,
+      "version": "v1"
+    },
+    {
+      "end": 48,
+      "file": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/policy.py",
+      "id": "d2723b03c512",
+      "lints": [
+        "PROMPT_MISSING_ID",
+        "PROMPT_MISSING_VERSION"
+      ],
+      "role": "unknown",
+      "source_hash": "d2723b03c512",
+      "start": 45,
       "version": "v1"
     },
     {
@@ -686,6 +699,110 @@
       "role": "user",
       "source_hash": "7c7ac09a291d",
       "start": 12,
+      "version": "v1"
+    },
+    {
+      "end": 24,
+      "file": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_policy.py",
+      "id": "82e97bfd3c65",
+      "lints": [
+        "PROMPT_MISSING_ID",
+        "PROMPT_MISSING_VERSION"
+      ],
+      "role": "unknown",
+      "source_hash": "82e97bfd3c65",
+      "start": 16,
+      "version": "v1"
+    },
+    {
+      "end": 39,
+      "file": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_policy.py",
+      "id": "192b3cd3fb9f",
+      "lints": [
+        "PROMPT_MISSING_ID",
+        "PROMPT_MISSING_VERSION"
+      ],
+      "role": "unknown",
+      "source_hash": "192b3cd3fb9f",
+      "start": 39,
+      "version": "v1"
+    },
+    {
+      "end": 51,
+      "file": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_policy.py",
+      "id": "8958b2c7d9f7",
+      "lints": [
+        "PROMPT_MISSING_ID",
+        "PROMPT_MISSING_VERSION"
+      ],
+      "role": "unknown",
+      "source_hash": "8958b2c7d9f7",
+      "start": 51,
+      "version": "v1"
+    },
+    {
+      "end": 63,
+      "file": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_policy.py",
+      "id": "57c19b58491c",
+      "lints": [
+        "PROMPT_MISSING_ID",
+        "PROMPT_MISSING_VERSION"
+      ],
+      "role": "unknown",
+      "source_hash": "57c19b58491c",
+      "start": 63,
+      "version": "v1"
+    },
+    {
+      "end": 75,
+      "file": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_policy.py",
+      "id": "79f6c1950779",
+      "lints": [
+        "PROMPT_MISSING_ID",
+        "PROMPT_MISSING_VERSION"
+      ],
+      "role": "unknown",
+      "source_hash": "79f6c1950779",
+      "start": 75,
+      "version": "v1"
+    },
+    {
+      "end": 89,
+      "file": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_policy.py",
+      "id": "adc83b19e793",
+      "lints": [
+        "PROMPT_MISSING_ID",
+        "PROMPT_MISSING_VERSION"
+      ],
+      "role": "unknown",
+      "source_hash": "adc83b19e793",
+      "start": 89,
+      "version": "v1"
+    },
+    {
+      "end": 105,
+      "file": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_policy.py",
+      "id": "62693da38218",
+      "lints": [
+        "PROMPT_MISSING_ID",
+        "PROMPT_MISSING_VERSION"
+      ],
+      "role": "unknown",
+      "source_hash": "62693da38218",
+      "start": 99,
+      "version": "v1"
+    },
+    {
+      "end": 118,
+      "file": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_policy.py",
+      "id": "589c0ed82777",
+      "lints": [
+        "PROMPT_MISSING_ID",
+        "PROMPT_MISSING_VERSION"
+      ],
+      "role": "unknown",
+      "source_hash": "589c0ed82777",
+      "start": 118,
       "version": "v1"
     },
     {
