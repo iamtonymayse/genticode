@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+CAP="${CAP:-120}"
+CMD="$*"
+
+if command -v gtimeout >/dev/null 2>&1; then
+  gtimeout "${CAP}s" bash -lc "$CMD"
+else
+  python - "$CMD" "$CAP" <<'PY'
+import subprocess, sys, shlex
+cmd = sys.argv[1]
+cap = int(sys.argv[2])
+try:
+    subprocess.run(cmd, shell=True, timeout=cap, check=True)
+except subprocess.TimeoutExpired:
+    print("TIMEOUT", file=sys.stderr)
+    raise SystemExit(124)
+PY
+fi

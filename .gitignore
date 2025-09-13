@@ -1,0 +1,27 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Node / JS
+node_modules/
+dist/
+*.log
+
+# Genticode local artifacts
+.genticode/local/
+.genticode/cache/
+.genticode/candidates/
+.genticode/logs/
+.genticode/raw/
+.genticode/baseline/
+
+# OS
+.DS_Store
+
+# Env files
+.env
+*.env

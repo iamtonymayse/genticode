@@ -1,0 +1,11 @@
+version: 1
+packs:
+  static: {enabled: true, timeout_s: 600}
+  supply: {enabled: true, timeout_s: 600}
+  quality: {enabled: true, timeout_s: 1800}
+  traceability: {enabled: true, timeout_s: 120}
+severity_map: {info: 0, low: 20, medium: 50, high: 80, critical: 95}
+budgets:
+  secrets: {max_total: 0}
+  licenses: {deny: [AGPL-3.0], fail_on_unknown: true}
+progressive_enforcement: {phase: new_code_only}
