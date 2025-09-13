@@ -4,10 +4,12 @@ import os
 import platform
 from pathlib import Path
 
-from .report import build_empty_report, write_json
+from .report import build_empty_report, write_json, add_pack_summary
 from .html import render_html
 from .sarif import to_sarif
 from .baseline import baseline_capture, baseline_clear
+from .prompt import scan_repo as prompt_scan
+from .prompt.manifest import build_manifest, write_manifest
 from . import VERSION
 
 
@@ -49,6 +51,11 @@ def cmd_check(_: argparse.Namespace) -> int:
     ensure_layout()
     baseline_present = (GC_DIR / "baseline" / "report.json").exists()
     report = build_empty_report(version=VERSION, baseline_present=baseline_present)
+    # Prompt Hygiene pack scan (MVP)
+    spans = prompt_scan(ROOT)
+    manifest = build_manifest(spans)
+    write_manifest(GC_DIR / "prompts.manifest.json", manifest)
+    add_pack_summary(report, pack="prompt", counts={"prompts": len(manifest["items"])})
     write_json(GC_DIR / "report.json", report)
     print(str(GC_DIR / "report.json"))
     return 0
@@ -114,4 +121,3 @@ def main(argv: list[str] | None = None) -> int:
 
     args = parser.parse_args(argv)
     return int(args.func(args))
-

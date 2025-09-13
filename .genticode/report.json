@@ -8,7 +8,14 @@
   },
   "findings": [],
   "genticode_version": "0.1a",
-  "packs": [],
+  "packs": [
+    {
+      "counts": {
+        "prompts": 66
+      },
+      "name": "prompt"
+    }
+  ],
   "schema_version": "0.1.0",
   "summary": {
     "counts": {

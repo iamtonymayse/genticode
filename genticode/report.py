@@ -24,3 +24,7 @@ def write_json(path: Path, data: dict) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(data, indent=2, sort_keys=True) + "\n")
 
+
+def add_pack_summary(report: dict, pack: str, counts: dict) -> None:
+    packs = report.setdefault("packs", [])
+    packs.append({"name": pack, "counts": counts})
