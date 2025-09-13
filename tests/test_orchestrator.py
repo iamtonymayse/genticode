@@ -67,7 +67,7 @@ def test_pack_helper_prompt_writes_artifacts(tmp_path, monkeypatch):
 
 def test_pack_helper_static_counts(tmp_path, monkeypatch):
     # No semgrep available → zero counts
-    monkeypatch.setattr("genticode.orchestrator.maybe_run_semgrep", lambda root, out: None)
+    monkeypatch.setattr("genticode.orchestrator.maybe_run_semgrep", lambda root, out, **kw: None)
     sc = orch.run_static_pack(tmp_path, tmp_path / ".genticode")
     assert sc["findings"] == 0
     # With results
@@ -78,7 +78,7 @@ def test_pack_helper_static_counts(tmp_path, monkeypatch):
             {"check_id": "r3", "extra": {"severity": "HIGH"}},
         ]
     }
-    monkeypatch.setattr("genticode.orchestrator.maybe_run_semgrep", lambda root, out: sample)
+    monkeypatch.setattr("genticode.orchestrator.maybe_run_semgrep", lambda root, out, **kw: sample)
     monkeypatch.setattr("genticode.orchestrator.normalize_semgrep", lambda data: [
         {"severity": "high"}, {"severity": "medium"}, {"severity": "high"}
     ])

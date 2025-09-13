@@ -39,6 +39,10 @@ def evaluate(report: dict, baseline: dict | None, budgets: dict | None = None, p
     phase = (phase or "new_code_only").lower()
     sup_packs = {s.get("pack") for s in (suppressions or [])}
 
+    # No baseline → pass for non-hard phases to bootstrap
+    if baseline is None and phase != "hard":
+        return 0, {"reason": "no baseline"}
+
     # Evaluate static via severity first
     cur = _get_sev_counts(report, "static")
     base = _get_sev_counts(baseline or {}, "static")

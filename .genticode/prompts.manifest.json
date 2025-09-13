@@ -196,7 +196,7 @@
       "version": "v1"
     },
     {
-      "end": 76,
+      "end": 90,
       "file": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/orchestrator.py",
       "id": "9c7e05e5868a",
       "lints": [
@@ -205,11 +205,11 @@
       ],
       "role": "unknown",
       "source_hash": "9c7e05e5868a",
-      "start": 76,
+      "start": 90,
       "version": "v1"
     },
     {
-      "end": 76,
+      "end": 90,
       "file": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/orchestrator.py",
       "id": "9c7e05e5868a",
       "lints": [
@@ -218,7 +218,7 @@
       ],
       "role": "unknown",
       "source_hash": "9c7e05e5868a",
-      "start": 76,
+      "start": 90,
       "version": "v1"
     },
     {
@@ -741,7 +741,7 @@
       "version": "v1"
     },
     {
-      "end": 35,
+      "end": 33,
       "file": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/static/semgrep.py",
       "id": "adc83b19e793",
       "lints": [
@@ -750,7 +750,7 @@
       ],
       "role": "unknown",
       "source_hash": "adc83b19e793",
-      "start": 35,
+      "start": 33,
       "version": "v1"
     },
     {

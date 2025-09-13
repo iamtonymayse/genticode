@@ -17,8 +17,11 @@
     },
     {
       "counts": {
-        "by_severity": {},
-        "findings": 0
+        "by_severity": {
+          "high": 18
+        },
+        "findings": 0,
+        "secrets": 18
       },
       "name": "static"
     },
