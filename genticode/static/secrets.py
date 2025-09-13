@@ -5,6 +5,7 @@ import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterator, List
+import os
 
 
 SECRET_PATTERNS = [
@@ -24,6 +25,7 @@ class SecretFinding:
 
 def scan_repo_for_secrets(root: Path) -> List[SecretFinding]:
     findings: List[SecretFinding] = []
+    max_bytes = int(os.getenv("GENTICODE_MAX_FILE_BYTES", "1048576"))
     for dirpath, dirnames, filenames in os.walk(root):
         rel = os.path.relpath(dirpath, root)
         if rel.startswith(".git") or ".genticode" in rel or ".venv" in rel or "node_modules" in rel:
@@ -31,6 +33,8 @@ def scan_repo_for_secrets(root: Path) -> List[SecretFinding]:
         for fn in filenames:
             p = Path(dirpath) / fn
             try:
+                if p.stat().st_size > max_bytes:
+                    continue
                 src = p.read_text(encoding="utf-8", errors="ignore")
             except Exception:
                 continue
@@ -40,4 +44,3 @@ def scan_repo_for_secrets(root: Path) -> List[SecretFinding]:
                         findings.append(SecretFinding(p, i, line.strip()))
                         break
     return findings
-

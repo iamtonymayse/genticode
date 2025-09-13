@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import concurrent.futures as cf
+import os
 from pathlib import Path
 from typing import Callable, Dict
 
@@ -118,16 +120,27 @@ DEFAULT_PACKS: Dict[str, PackRunner] = {
 
 def run_all(policy, root: Path, gc_dir: Path, report: dict, packs: Dict[str, PackRunner] | None = None) -> dict:
     packs = packs or DEFAULT_PACKS
-    for name, runner in packs.items():
-        # Respect policy pack enable flag when present
-        enabled = True
-        if getattr(policy, "packs", None) and name in policy.packs:
-            enabled = bool(policy.packs[name].enabled)
-        if not enabled:
-            continue
-        try:
-            counts = runner.func(root, gc_dir, policy)
-            add_pack_summary(report, pack=name, counts=counts or {})
-        except Exception as e:  # noqa: BLE001 — continue on pack failure
-            add_pack_summary(report, pack=name, counts={"error": str(e)})
+    tasks = []
+    with cf.ThreadPoolExecutor(max_workers=max(1, min(8, (os.cpu_count() or 2)))) as ex:
+        for name, runner in packs.items():
+            # Respect policy pack enable flag when present
+            enabled = True
+            timeout_s = 600
+            if getattr(policy, "packs", None) and name in policy.packs:
+                pcfg = policy.packs[name]
+                enabled = bool(pcfg.enabled)
+                timeout_s = int(getattr(pcfg, "timeout_s", timeout_s))
+            if not enabled:
+                continue
+            fut = ex.submit(runner.func, root, gc_dir, policy)
+            tasks.append((name, fut, timeout_s))
+
+        for name, fut, timeout_s in tasks:
+            try:
+                counts = fut.result(timeout=timeout_s)
+                add_pack_summary(report, pack=name, counts=counts or {})
+            except cf.TimeoutError:
+                add_pack_summary(report, pack=name, counts={"error": "timeout", "timeout_s": timeout_s})
+            except Exception as e:  # noqa: BLE001 — continue on pack failure
+                add_pack_summary(report, pack=name, counts={"error": str(e)})
     return report

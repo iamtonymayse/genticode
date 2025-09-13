@@ -11,17 +11,17 @@
   "packs": [
     {
       "counts": {
-        "prompts": 128
+        "prompts": 133
       },
       "name": "prompt"
     },
     {
       "counts": {
         "by_severity": {
-          "high": 18
+          "high": 11
         },
         "findings": 0,
-        "secrets": 18
+        "secrets": 11
       },
       "name": "static"
     },

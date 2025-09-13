@@ -7,6 +7,7 @@ import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable, Iterator
+import os
 
 
 PROMPT_KEYWORDS = (
@@ -112,6 +113,7 @@ def scan_paths(paths: Iterable[Path]) -> list[PromptSpan]:
 
 def scan_repo(root: Path) -> list[PromptSpan]:
     candidates: list[Path] = []
+    max_bytes = int(os.getenv("GENTICODE_MAX_FILE_BYTES", "1048576"))
     for dirpath, dirnames, filenames in os.walk(root):
         # Skip common vendor and internal dirs
         rel = os.path.relpath(dirpath, root)
@@ -120,5 +122,10 @@ def scan_repo(root: Path) -> list[PromptSpan]:
         for fn in filenames:
             p = Path(dirpath) / fn
             if p.suffix in {".py", ".js", ".ts", ".tsx", ".jsx"}:
+                try:
+                    if p.stat().st_size > max_bytes:
+                        continue
+                except Exception:
+                    continue
                 candidates.append(p)
     return scan_paths(candidates)

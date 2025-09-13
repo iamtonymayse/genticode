@@ -129,3 +129,50 @@ Yes. Secrets and license violations are hard gates by default; others can be bud
 License
 
 MIT — see LICENSE.
+# Genticode — v0.9.x (Alpha)
+
+Genticode is a lightweight, policy-driven CLI that orchestrates multiple packs (Prompt, Static, Supply, Quality, Traceability) and produces a unified report (`.genticode/report.json`) with HTML and SARIF transforms. It runs locally and in CI, applies progressive gates with baselines, and emphasizes safe, deterministic behavior.
+
+## Quickstart
+
+```
+python -m genticode init
+python -m genticode check
+python -m genticode report --html --sarif
+```
+
+Artifacts are written under `.genticode/`. Baselines:
+
+```
+python -m genticode baseline capture
+```
+
+## Policy Example (`.genticode/policy.yaml`)
+
+```
+version: 1
+progressive_enforcement: { phase: new_code_only }
+packs:
+  static: { enabled: true, timeout_s: 300, ruleset: ["p/python", "p/typescript"] }
+  supply: { enabled: true, timeout_s: 300 }
+  quality:{ enabled: true, timeout_s: 120 }
+  prompt: { enabled: true, timeout_s: 120 }
+  traceability: { enabled: true, timeout_s: 60 }
+budgets:
+  static: { high: 0 }
+  prompt: { count: 100 }          # max prompts allowed (delta rules apply by phase)
+  quality: { count: 500 }
+  supply: { count: 0 }            # license violations by count
+  traceability: { uncovered_delta_max: 0 }
+```
+
+## Hardening and Limits
+
+- Per-pack timeouts enforced by the orchestrator; packs run in parallel.
+- Large files are skipped by scanners (`GENTICODE_MAX_FILE_BYTES`, default 1 MiB).
+- Logging redacts token-like strings by default.
+
+## CI Tips
+
+- Install tools as needed (ruff, eslint, semgrep, pip-audit, npm) for richer results.
+- Always run `scripts/guard.sh` before pushing.
