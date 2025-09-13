@@ -11,7 +11,7 @@
   "packs": [
     {
       "counts": {
-        "prompts": 70
+        "prompts": 72
       },
       "name": "prompt"
     },
@@ -33,6 +33,12 @@
         "findings": 0
       },
       "name": "quality"
+    },
+    {
+      "counts": {
+        "ac_ids": 0
+      },
+      "name": "traceability"
     }
   ],
   "schema_version": "0.1.0",

@@ -14,6 +14,7 @@ from .static import maybe_run_semgrep, normalize_semgrep
 from .gate import evaluate as gate_evaluate
 from .supply import maybe_cyclonedx_py, maybe_cyclonedx_npm, evaluate_licenses
 from .quality import maybe_run_quality
+from .traceability import load_priority
 from . import VERSION
 
 
@@ -86,6 +87,9 @@ def cmd_check(_: argparse.Namespace) -> int:
     # Quality pack (ruff/eslint) — best-effort
     q_counts = maybe_run_quality(ROOT)
     add_pack_summary(report, pack="quality", counts=q_counts)
+    # Traceability pack — count AC IDs from PRIORITY.yaml
+    pr = load_priority(ROOT / "PRIORITY.yaml")
+    add_pack_summary(report, pack="traceability", counts={"ac_ids": len(pr.get("ids", []))})
     write_json(GC_DIR / "report.json", report)
     # Gating vs baseline
     base_path = GC_DIR / "baseline" / "report.json"
