@@ -14,7 +14,7 @@
       "version": "v1"
     },
     {
-      "end": 46,
+      "end": 47,
       "file": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/cli.py",
       "id": "4eb9bed59d02",
       "lints": [
@@ -23,11 +23,11 @@
       ],
       "role": "unknown",
       "source_hash": "4eb9bed59d02",
-      "start": 37,
+      "start": 38,
       "version": "v1"
     },
     {
-      "end": 59,
+      "end": 60,
       "file": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/cli.py",
       "id": "48d9b50eb07e",
       "lints": [
@@ -36,11 +36,11 @@
       ],
       "role": "unknown",
       "source_hash": "48d9b50eb07e",
-      "start": 59,
+      "start": 60,
       "version": "v1"
     },
     {
-      "end": 60,
+      "end": 61,
       "file": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/cli.py",
       "id": "9c7e05e5868a",
       "lints": [
@@ -49,11 +49,11 @@
       ],
       "role": "unknown",
       "source_hash": "9c7e05e5868a",
-      "start": 60,
+      "start": 61,
       "version": "v1"
     },
     {
-      "end": 60,
+      "end": 61,
       "file": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/cli.py",
       "id": "3b5ad64a06ec",
       "lints": [
@@ -62,7 +62,7 @@
       ],
       "role": "unknown",
       "source_hash": "3b5ad64a06ec",
-      "start": 60,
+      "start": 61,
       "version": "v1"
     },
     {

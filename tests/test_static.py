@@ -31,3 +31,17 @@ def test_maybe_run_semgrep_monkey(monkeypatch, tmp_path):
     assert out.exists()
     findings = normalize_semgrep(result)
     assert len(findings) == 2
+
+
+def test_maybe_run_semgrep_handles_error(monkeypatch, tmp_path):
+    from subprocess import CalledProcessError
+
+    monkeypatch.setattr("shutil.which", lambda _: "/usr/bin/semgrep")
+
+    def raise_err(*a, **k):
+        raise CalledProcessError(2, "semgrep")
+
+    monkeypatch.setattr("subprocess.run", raise_err)
+    out = tmp_path / "semgrep.json"
+    result = maybe_run_semgrep(tmp_path, out)
+    assert result is None

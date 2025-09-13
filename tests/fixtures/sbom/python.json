@@ -1,0 +1,17 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "components": [
+    {
+      "type": "library",
+      "name": "allowed-lib",
+      "licenses": [{"license": {"id": "MIT"}}]
+    },
+    {
+      "type": "library",
+      "name": "denied-lib",
+      "licenses": [{"license": {"id": "AGPL-3.0"}}]
+    }
+  ]
+}
+

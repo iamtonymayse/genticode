@@ -21,6 +21,12 @@
         "findings": 0
       },
       "name": "static"
+    },
+    {
+      "counts": {
+        "license_violations": 0
+      },
+      "name": "supply"
     }
   ],
   "schema_version": "0.1.0",

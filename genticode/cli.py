@@ -12,6 +12,7 @@ from .prompt import scan_repo as prompt_scan
 from .prompt.manifest import build_manifest, write_manifest
 from .static import maybe_run_semgrep, normalize_semgrep
 from .gate import evaluate as gate_evaluate
+from .supply import maybe_cyclonedx_py, maybe_cyclonedx_npm, evaluate_licenses
 from . import VERSION
 
 
@@ -70,6 +71,17 @@ def cmd_check(_: argparse.Namespace) -> int:
         add_pack_summary(report, pack="static", counts={"findings": len(findings), "by_severity": sev_counts})
     else:
         add_pack_summary(report, pack="static", counts={"findings": 0, "by_severity": {}})
+    # Supply pack (SBOM + licenses) — best-effort
+    sbom_py = maybe_cyclonedx_py(ROOT, GC_DIR / "raw/sbom-python.json")
+    sbom_node = maybe_cyclonedx_npm(ROOT, GC_DIR / "raw/sbom-node.json")
+    lic_viol = 0
+    if sbom_py:
+        v, _ = evaluate_licenses(sbom_py)
+        lic_viol += v
+    if sbom_node:
+        v, _ = evaluate_licenses(sbom_node)
+        lic_viol += v
+    add_pack_summary(report, pack="supply", counts={"license_violations": int(lic_viol)})
     write_json(GC_DIR / "report.json", report)
     # Gating vs baseline
     base_path = GC_DIR / "baseline" / "report.json"
