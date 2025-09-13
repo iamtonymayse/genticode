@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+  "runs": [
+    {
+      "results": [],
+      "tool": {
+        "driver": {
+          "name": "genticode",
+          "rules": [],
+          "semanticVersion": "0.1a"
+        }
+      }
+    }
+  ],
+  "version": "2.1.0"
+}

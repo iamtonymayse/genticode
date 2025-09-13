@@ -7,7 +7,11 @@ CMD="$*"
 if command -v gtimeout >/dev/null 2>&1; then
   gtimeout "${CAP}s" bash -lc "$CMD"
 else
-  python - "$CMD" "$CAP" <<'PY'
+  PYBIN="python"
+  if ! command -v "$PYBIN" >/dev/null 2>&1; then
+    PYBIN="python3"
+  fi
+  "$PYBIN" - "$CMD" "$CAP" <<'PY'
 import subprocess, sys, shlex
 cmd = sys.argv[1]
 cap = int(sys.argv[2])

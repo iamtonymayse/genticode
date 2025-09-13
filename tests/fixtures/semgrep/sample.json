@@ -1,0 +1,25 @@
+{
+  "results": [
+    {
+      "check_id": "python.lang.security.audit.weak-hash.md5-hash",
+      "path": "app.py",
+      "start": {"line": 10},
+      "end": {"line": 10},
+      "extra": {
+        "message": "Detected md5 hash algorithm",
+        "severity": "HIGH"
+      }
+    },
+    {
+      "check_id": "javascript.lang.security.audit.no-eval",
+      "path": "web.js",
+      "start": {"line": 5},
+      "end": {"line": 5},
+      "extra": {
+        "message": "Avoid eval()",
+        "severity": "MEDIUM"
+      }
+    }
+  ]
+}
+

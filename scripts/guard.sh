@@ -19,7 +19,7 @@ PATTERNS=(
 )
 RC=0
 for p in "${PATTERNS[@]}"; do
-  if rg -nEI "$p" --hidden --glob "!/.git/*" --glob "!/.genticode/cache/*" . | tee .genticode/logs/guard-secrets.txt; then
+  if rg -nI -- "$p" --hidden --glob "!/.git/*" --glob "!/.genticode/cache/*" --glob "!/.venv/*" --glob "!scripts/*" . | tee .genticode/logs/guard-secrets.txt; then
     echo "Guard: potential secret pattern detected: $p" >&2
     RC=2
   fi
@@ -30,6 +30,7 @@ if command -v gfind >/dev/null 2>&1; then FIND=gfind; else FIND=find; fi
 LARGE=$($FIND . -type f -size +5M \
   -not -path "./.git/*" \
   -not -path "./.genticode/cache/*" \
+  -not -path "./.venv/*" \
   -not -path "./node_modules/*" || true)
 if [ -n "$LARGE" ]; then
   echo "Guard: large files detected outside cache:" >&2
@@ -37,8 +38,13 @@ if [ -n "$LARGE" ]; then
   RC=3
 fi
 
-# 3) Block common junk files
-JUNK=$(rg -nI "\.env$|id_rsa|\.pem$" --hidden --glob "!/.git/*" --glob "!/.genticode/cache/*" . || true)
+# 3) Block common junk files by filename
+if command -v gfind >/dev/null 2>&1; then FIND=gfind; else FIND=find; fi
+JUNK=$($FIND . -type f \
+  \( -name ".env" -o -name "*.env" -o -name "id_rsa" -o -name "*.pem" \) \
+  -not -path "./.git/*" \
+  -not -path "./.genticode/cache/*" \
+  -not -path "./.venv/*" || true)
 if [ -n "$JUNK" ]; then
   echo "Guard: junk or sensitive files detected:" >&2
   echo "$JUNK" | tee .genticode/logs/guard-junk.txt >&2
