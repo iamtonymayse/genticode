@@ -18,6 +18,7 @@ from .quality import maybe_run_quality
 from .traceability import load_priority
 from .log import get_logger
 from . import VERSION
+from .orchestrator import run_all as run_packs
 
 
 ROOT = Path(os.getcwd())
@@ -65,46 +66,8 @@ def cmd_check(_: argparse.Namespace) -> int:
         policy = None
     baseline_present = (GC_DIR / "baseline" / "report.json").exists()
     report = build_empty_report(version=VERSION, baseline_present=baseline_present)
-    # Prompt Hygiene pack scan (MVP)
-    spans = prompt_scan(ROOT)
-    manifest = build_manifest(spans)
-    write_manifest(GC_DIR / "prompts.manifest.json", manifest)
-    # Emit spans for IDE surfacing (from prompts)
-    spans_out = GC_DIR / "raw/spans.json"
-    spans_out.write_text(json.dumps([
-        {"file": it["file"], "start": it["start"], "end": it["end"], "pack": "prompt"}
-        for it in manifest.get("items", [])
-    ], indent=2) + "\n")
-    add_pack_summary(report, pack="prompt", counts={"prompts": len(manifest["items"])})
-    # Static pack (Semgrep) — best-effort run
-    sg_raw = maybe_run_semgrep(ROOT, GC_DIR / "raw/semgrep.json")
-    if sg_raw is not None:
-        findings = normalize_semgrep(sg_raw)
-        # Compute severity buckets
-        sev_counts: dict[str, int] = {}
-        for f in findings:
-            sev = str(f.get("severity", "info")).lower()
-            sev_counts[sev] = sev_counts.get(sev, 0) + 1
-        add_pack_summary(report, pack="static", counts={"findings": len(findings), "by_severity": sev_counts})
-    else:
-        add_pack_summary(report, pack="static", counts={"findings": 0, "by_severity": {}})
-    # Supply pack (SBOM + licenses) — best-effort
-    sbom_py = maybe_cyclonedx_py(ROOT, GC_DIR / "raw/sbom-python.json")
-    sbom_node = maybe_cyclonedx_npm(ROOT, GC_DIR / "raw/sbom-node.json")
-    lic_viol = 0
-    if sbom_py:
-        v, _ = evaluate_licenses(sbom_py)
-        lic_viol += v
-    if sbom_node:
-        v, _ = evaluate_licenses(sbom_node)
-        lic_viol += v
-    add_pack_summary(report, pack="supply", counts={"license_violations": int(lic_viol)})
-    # Quality pack (ruff/eslint) — best-effort
-    q_counts = maybe_run_quality(ROOT)
-    add_pack_summary(report, pack="quality", counts=q_counts)
-    # Traceability pack — count AC IDs from PRIORITY.yaml
-    pr = load_priority(ROOT / "PRIORITY.yaml")
-    add_pack_summary(report, pack="traceability", counts={"ac_ids": len(pr.get("ids", []))})
+    # Delegate pack execution to orchestrator (policy-aware)
+    run_packs(policy, ROOT, GC_DIR, report)
     write_json(GC_DIR / "report.json", report)
     # Gating vs baseline
     base_path = GC_DIR / "baseline" / "report.json"
