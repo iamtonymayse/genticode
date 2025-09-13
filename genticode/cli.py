@@ -150,6 +150,12 @@ def cmd_baseline(args: argparse.Namespace) -> int:
         raise SystemExit(f"Unknown baseline action: {args.action}")
 
 
+def cmd_iast(_: argparse.Namespace) -> int:
+    # Null provider — no-op with success
+    print("IAST null provider: no-op")
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="genticode", description="Genticode CLI")
     parser.add_argument("--version", action="version", version=f"genticode {VERSION}")
@@ -169,6 +175,9 @@ def main(argv: list[str] | None = None) -> int:
     p_bl = sub.add_parser("baseline", help="Manage baseline store")
     p_bl.add_argument("action", choices=["capture", "clear"], help="Capture or clear baseline")
     p_bl.set_defaults(func=cmd_baseline)
+
+    p_iast = sub.add_parser("iast", help="Run IAST checks (null provider)")
+    p_iast.set_defaults(func=cmd_iast)
 
     args = parser.parse_args(argv)
     return int(args.func(args))
