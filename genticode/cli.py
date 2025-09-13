@@ -7,7 +7,7 @@ from pathlib import Path
 from .report import build_empty_report, write_json, add_pack_summary
 from .html import render_html
 from .sarif import to_sarif
-from .baseline import baseline_capture, baseline_clear
+from .baseline import baseline_capture, baseline_clear, load_suppressions
 from .prompt import scan_repo as prompt_scan
 from .prompt.manifest import build_manifest, write_manifest
 from .static import maybe_run_semgrep, normalize_semgrep
@@ -115,11 +115,13 @@ def cmd_check(_: argparse.Namespace) -> int:
         except Exception:
             baseline = None
     # Use policy budgets if available
+    suppressions = load_suppressions(GC_DIR)
     rc, _summary = gate_evaluate(
         report,
         baseline,
         budgets=(policy.budgets if policy else None),
         phase=(policy.get_phase() if policy else "new_code_only"),
+        suppressions=suppressions,
     )
     print(str(GC_DIR / "report.json"))
     return rc
