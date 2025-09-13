@@ -13,6 +13,7 @@ from .prompt.manifest import build_manifest, write_manifest
 from .static import maybe_run_semgrep, normalize_semgrep
 from .gate import evaluate as gate_evaluate
 from .supply import maybe_cyclonedx_py, maybe_cyclonedx_npm, evaluate_licenses
+from .quality import maybe_run_quality
 from . import VERSION
 
 
@@ -82,6 +83,9 @@ def cmd_check(_: argparse.Namespace) -> int:
         v, _ = evaluate_licenses(sbom_node)
         lic_viol += v
     add_pack_summary(report, pack="supply", counts={"license_violations": int(lic_viol)})
+    # Quality pack (ruff/eslint) — best-effort
+    q_counts = maybe_run_quality(ROOT)
+    add_pack_summary(report, pack="quality", counts=q_counts)
     write_json(GC_DIR / "report.json", report)
     # Gating vs baseline
     base_path = GC_DIR / "baseline" / "report.json"
