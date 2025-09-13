@@ -9,6 +9,7 @@ from .prompt import scan_repo as prompt_scan
 from .prompt.manifest import build_manifest, write_manifest
 from .static import maybe_run_semgrep, normalize_semgrep
 from .supply import maybe_cyclonedx_py, maybe_cyclonedx_npm, evaluate_licenses
+from .supply.vuln import maybe_pip_audit, maybe_npm_audit, normalize_pip_audit, normalize_npm_audit
 from .quality import maybe_run_quality
 from .traceability import load_priority
 
@@ -74,7 +75,22 @@ def run_supply_pack(root: Path, gc_dir: Path, policy=None) -> dict:
     if sbom_node:
         v, _ = evaluate_licenses(sbom_node)
         lic_viol += v
-    return {"license_violations": int(lic_viol)}
+    # Vulnerabilities
+    vulns_total = 0
+    by_sev: dict[str, int] = {}
+    pa = maybe_pip_audit(root, gc_dir / "raw/pip-audit.json")
+    if pa:
+        for v in normalize_pip_audit(pa):
+            vulns_total += 1
+            s = v.get("severity", "info")
+            by_sev[s] = by_sev.get(s, 0) + 1
+    na = maybe_npm_audit(root, gc_dir / "raw/npm-audit.json")
+    if na:
+        for v in normalize_npm_audit(na):
+            vulns_total += 1
+            s = v.get("severity", "info")
+            by_sev[s] = by_sev.get(s, 0) + 1
+    return {"license_violations": int(lic_viol), "vulns": vulns_total, "by_severity": by_sev}
 
 
 def run_quality_pack(root: Path, gc_dir: Path, policy=None) -> dict:

@@ -11,7 +11,7 @@
   "packs": [
     {
       "counts": {
-        "prompts": 119
+        "prompts": 122
       },
       "name": "prompt"
     },
@@ -27,7 +27,9 @@
     },
     {
       "counts": {
-        "license_violations": 0
+        "by_severity": {},
+        "license_violations": 0,
+        "vulns": 0
       },
       "name": "supply"
     },
