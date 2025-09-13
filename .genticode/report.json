@@ -11,7 +11,7 @@
   "packs": [
     {
       "counts": {
-        "prompts": 122
+        "prompts": 123
       },
       "name": "prompt"
     },
@@ -35,6 +35,7 @@
     },
     {
       "counts": {
+        "by_severity": {},
         "findings": 0
       },
       "name": "quality"
