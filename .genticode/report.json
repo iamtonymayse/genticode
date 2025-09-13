@@ -1,6 +1,6 @@
 {
   "baseline": {
-    "present": false
+    "present": true
   },
   "environment": {
     "platform": "Darwin",
@@ -11,12 +11,13 @@
   "packs": [
     {
       "counts": {
-        "prompts": 67
+        "prompts": 68
       },
       "name": "prompt"
     },
     {
       "counts": {
+        "by_severity": {},
         "findings": 0
       },
       "name": "static"

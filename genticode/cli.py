@@ -11,6 +11,7 @@ from .baseline import baseline_capture, baseline_clear
 from .prompt import scan_repo as prompt_scan
 from .prompt.manifest import build_manifest, write_manifest
 from .static import maybe_run_semgrep, normalize_semgrep
+from .gate import evaluate as gate_evaluate
 from . import VERSION
 
 
@@ -61,12 +62,26 @@ def cmd_check(_: argparse.Namespace) -> int:
     sg_raw = maybe_run_semgrep(ROOT, GC_DIR / "raw/semgrep.json")
     if sg_raw is not None:
         findings = normalize_semgrep(sg_raw)
-        add_pack_summary(report, pack="static", counts={"findings": len(findings)})
+        # Compute severity buckets
+        sev_counts: dict[str, int] = {}
+        for f in findings:
+            sev = str(f.get("severity", "info")).lower()
+            sev_counts[sev] = sev_counts.get(sev, 0) + 1
+        add_pack_summary(report, pack="static", counts={"findings": len(findings), "by_severity": sev_counts})
     else:
-        add_pack_summary(report, pack="static", counts={"findings": 0})
+        add_pack_summary(report, pack="static", counts={"findings": 0, "by_severity": {}})
     write_json(GC_DIR / "report.json", report)
+    # Gating vs baseline
+    base_path = GC_DIR / "baseline" / "report.json"
+    baseline = None
+    if base_path.exists():
+        try:
+            baseline = json.loads(base_path.read_text())
+        except Exception:
+            baseline = None
+    rc, _summary = gate_evaluate(report, baseline)
     print(str(GC_DIR / "report.json"))
-    return 0
+    return rc
 
 
 def cmd_report(args: argparse.Namespace) -> int:
