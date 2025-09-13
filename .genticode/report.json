@@ -1,0 +1,18 @@
+{
+  "baseline": {
+    "present": false
+  },
+  "environment": {
+    "platform": "Darwin",
+    "python": "3.13.2"
+  },
+  "findings": [],
+  "genticode_version": "0.1a",
+  "packs": [],
+  "schema_version": "0.1.0",
+  "summary": {
+    "counts": {
+      "total": 0
+    }
+  }
+}
