@@ -115,7 +115,12 @@ def cmd_check(_: argparse.Namespace) -> int:
         except Exception:
             baseline = None
     # Use policy budgets if available
-    rc, _summary = gate_evaluate(report, baseline, budgets=(policy.budgets if policy else None))
+    rc, _summary = gate_evaluate(
+        report,
+        baseline,
+        budgets=(policy.budgets if policy else None),
+        phase=(policy.get_phase() if policy else "new_code_only"),
+    )
     print(str(GC_DIR / "report.json"))
     return rc
 
