@@ -10,6 +10,7 @@ from .sarif import to_sarif
 from .baseline import baseline_capture, baseline_clear
 from .prompt import scan_repo as prompt_scan
 from .prompt.manifest import build_manifest, write_manifest
+from .static import maybe_run_semgrep, normalize_semgrep
 from . import VERSION
 
 
@@ -56,6 +57,13 @@ def cmd_check(_: argparse.Namespace) -> int:
     manifest = build_manifest(spans)
     write_manifest(GC_DIR / "prompts.manifest.json", manifest)
     add_pack_summary(report, pack="prompt", counts={"prompts": len(manifest["items"])})
+    # Static pack (Semgrep) — best-effort run
+    sg_raw = maybe_run_semgrep(ROOT, GC_DIR / "raw/semgrep.json")
+    if sg_raw is not None:
+        findings = normalize_semgrep(sg_raw)
+        add_pack_summary(report, pack="static", counts={"findings": len(findings)})
+    else:
+        add_pack_summary(report, pack="static", counts={"findings": 0})
     write_json(GC_DIR / "report.json", report)
     print(str(GC_DIR / "report.json"))
     return 0

@@ -11,9 +11,15 @@
   "packs": [
     {
       "counts": {
-        "prompts": 66
+        "prompts": 67
       },
       "name": "prompt"
+    },
+    {
+      "counts": {
+        "findings": 0
+      },
+      "name": "static"
     }
   ],
   "schema_version": "0.1.0",
