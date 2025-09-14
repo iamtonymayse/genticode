@@ -5,6 +5,12 @@ SHELL := /bin/bash
 init:
 	@mkdir -p .genticode/{logs,cache,raw,reports,baseline,candidates,local}
 	@echo "Initialized .genticode structure."
+	@echo "Installing Git hooks (pre-commit, pre-push)"
+	@mkdir -p .git/hooks
+	@printf '#!/usr/bin/env bash\nset -euo pipefail\n# Secrets + test guard\nscripts/guard.sh\n' > .git/hooks/pre-commit
+	@chmod +x .git/hooks/pre-commit
+	@printf '#!/usr/bin/env bash\nset -euo pipefail\n# Full guard on push\nscripts/guard.sh\n' > .git/hooks/pre-push
+	@chmod +x .git/hooks/pre-push
 
 guard:
 	@scripts/guard.sh

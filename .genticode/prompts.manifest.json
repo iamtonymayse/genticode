@@ -767,7 +767,7 @@
       "version": "v1"
     },
     {
-      "end": 33,
+      "end": 48,
       "file": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/static/semgrep.py",
       "id": "adc83b19e793",
       "lints": [
@@ -776,7 +776,7 @@
       ],
       "role": "unknown",
       "source_hash": "adc83b19e793",
-      "start": 33,
+      "start": 48,
       "version": "v1"
     },
     {
@@ -1632,6 +1632,45 @@
       "role": "unknown",
       "source_hash": "9c7e05e5868a",
       "start": 104,
+      "version": "v1"
+    },
+    {
+      "end": 8,
+      "file": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_prompt_ignore_dirs.py",
+      "id": "fd0f8b9a7ea7",
+      "lints": [
+        "PROMPT_MISSING_ID",
+        "PROMPT_MISSING_VERSION"
+      ],
+      "role": "system",
+      "source_hash": "fd0f8b9a7ea7",
+      "start": 8,
+      "version": "v1"
+    },
+    {
+      "end": 10,
+      "file": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_prompt_ignore_dirs.py",
+      "id": "0cad8e6430db",
+      "lints": [
+        "PROMPT_MISSING_ID",
+        "PROMPT_MISSING_VERSION"
+      ],
+      "role": "system",
+      "source_hash": "0cad8e6430db",
+      "start": 10,
+      "version": "v1"
+    },
+    {
+      "end": 13,
+      "file": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_prompt_ignore_dirs.py",
+      "id": "0fa2c7506776",
+      "lints": [
+        "PROMPT_MISSING_ID",
+        "PROMPT_MISSING_VERSION"
+      ],
+      "role": "system",
+      "source_hash": "0fa2c7506776",
+      "start": 13,
       "version": "v1"
     },
     {

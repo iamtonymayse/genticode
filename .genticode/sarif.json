@@ -3943,7 +3943,7 @@
                   "uri": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/static/semgrep.py"
                 },
                 "region": {
-                  "startLine": 33
+                  "startLine": 48
                 }
               }
             }
@@ -3966,7 +3966,7 @@
                   "uri": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/static/semgrep.py"
                 },
                 "region": {
-                  "startLine": 33
+                  "startLine": 48
                 }
               }
             }
@@ -3988,7 +3988,7 @@
                   "uri": "/Users/tonymayse/code/genticode-starter-v0.9/genticode/static/semgrep.py"
                 },
                 "region": {
-                  "startLine": 33
+                  "startLine": 48
                 }
               }
             }
@@ -8376,6 +8376,207 @@
           },
           "properties": {
             "id": "9c7e05e5868a"
+          },
+          "ruleId": "prompt.lint.prompt_missing_version"
+        },
+        {
+          "level": "note",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_prompt_ignore_dirs.py"
+                },
+                "region": {
+                  "startLine": 8
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Prompt-like string (role=system)"
+          },
+          "properties": {
+            "id": "fd0f8b9a7ea7",
+            "role": "system"
+          },
+          "ruleId": "prompt.detected"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_prompt_ignore_dirs.py"
+                },
+                "region": {
+                  "startLine": 8
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "PROMPT_MISSING_ID"
+          },
+          "properties": {
+            "id": "fd0f8b9a7ea7"
+          },
+          "ruleId": "prompt.lint.prompt_missing_id"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_prompt_ignore_dirs.py"
+                },
+                "region": {
+                  "startLine": 8
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "PROMPT_MISSING_VERSION"
+          },
+          "properties": {
+            "id": "fd0f8b9a7ea7"
+          },
+          "ruleId": "prompt.lint.prompt_missing_version"
+        },
+        {
+          "level": "note",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_prompt_ignore_dirs.py"
+                },
+                "region": {
+                  "startLine": 10
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Prompt-like string (role=system)"
+          },
+          "properties": {
+            "id": "0cad8e6430db",
+            "role": "system"
+          },
+          "ruleId": "prompt.detected"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_prompt_ignore_dirs.py"
+                },
+                "region": {
+                  "startLine": 10
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "PROMPT_MISSING_ID"
+          },
+          "properties": {
+            "id": "0cad8e6430db"
+          },
+          "ruleId": "prompt.lint.prompt_missing_id"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_prompt_ignore_dirs.py"
+                },
+                "region": {
+                  "startLine": 10
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "PROMPT_MISSING_VERSION"
+          },
+          "properties": {
+            "id": "0cad8e6430db"
+          },
+          "ruleId": "prompt.lint.prompt_missing_version"
+        },
+        {
+          "level": "note",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_prompt_ignore_dirs.py"
+                },
+                "region": {
+                  "startLine": 13
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "Prompt-like string (role=system)"
+          },
+          "properties": {
+            "id": "0fa2c7506776",
+            "role": "system"
+          },
+          "ruleId": "prompt.detected"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_prompt_ignore_dirs.py"
+                },
+                "region": {
+                  "startLine": 13
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "PROMPT_MISSING_ID"
+          },
+          "properties": {
+            "id": "0fa2c7506776"
+          },
+          "ruleId": "prompt.lint.prompt_missing_id"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/Users/tonymayse/code/genticode-starter-v0.9/tests/test_prompt_ignore_dirs.py"
+                },
+                "region": {
+                  "startLine": 13
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "PROMPT_MISSING_VERSION"
+          },
+          "properties": {
+            "id": "0fa2c7506776"
           },
           "ruleId": "prompt.lint.prompt_missing_version"
         },
