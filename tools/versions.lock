@@ -1,0 +1,7 @@
+semgrep: 1.85.0
+ruff: 0.6.9
+eslint: 9.13.0
+pip-audit: 2.7.3
+cyclonedx-cli: 0.29.0
+python: 3.11.x
+node: 20.x
