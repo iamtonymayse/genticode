@@ -19,6 +19,7 @@ from .traceability import load_priority
 from .log import get_logger
 from . import VERSION
 from .orchestrator import run_all as run_packs
+from .docsutil import docs_build, gov_check
 
 
 ROOT = Path(os.getcwd())
@@ -156,6 +157,30 @@ def main(argv: list[str] | None = None) -> int:
 
     p_iast = sub.add_parser("iast", help="Run IAST checks (null provider)")
     p_iast.set_defaults(func=cmd_iast)
+
+    # docs build
+    def _cmd_docs(args: argparse.Namespace) -> int:
+        ensure_layout()
+        docs_build(ROOT)
+        print(str(GC_DIR / "raw" / "docs_render"))
+        return 0
+
+    p_docs = sub.add_parser("docs", help="Docs operations")
+    p_docs_sub = p_docs.add_subparsers(dest="docs_cmd", required=True)
+    p_docs_build = p_docs_sub.add_parser("build", help="Render docs snapshot deterministically")
+    p_docs_build.set_defaults(func=_cmd_docs)
+
+    # gov check
+    def _cmd_gov(args: argparse.Namespace) -> int:
+        ok, msg = gov_check(ROOT)
+        if not ok:
+            print(msg)
+            return 2
+        print("gov check: ok")
+        return 0
+
+    p_gov = sub.add_parser("gov", help="Governance checks")
+    p_gov.set_defaults(func=_cmd_gov)
 
     args = parser.parse_args(argv)
     return int(args.func(args))
