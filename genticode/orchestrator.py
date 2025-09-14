@@ -68,9 +68,29 @@ def run_static_pack(root: Path, gc_dir: Path, policy=None) -> dict:
     return counts
 
 
+def _has_any(root: Path, names: list[str]) -> bool:
+    for n in names:
+        if (root / n).exists():
+            return True
+    return False
+
+
 def run_supply_pack(root: Path, gc_dir: Path, policy=None) -> dict:
-    sbom_py = maybe_cyclonedx_py(root, gc_dir / "raw/sbom-python.json")
-    sbom_node = maybe_cyclonedx_npm(root, gc_dir / "raw/sbom-node.json")
+    # Lockfile-only SBOM provenance (MPI): run only when lockfiles present
+    py_lock = _has_any(root, [
+        "requirements.lock",
+        "requirements.txt",  # allow minimal case during bootstrap
+        "poetry.lock",
+        "uv.lock",
+        "pip-tools.lock",
+    ])
+    node_lock = _has_any(root, [
+        "package-lock.json",
+        "pnpm-lock.yaml",
+        "yarn.lock",
+    ])
+    sbom_py = maybe_cyclonedx_py(root, gc_dir / "raw/sbom-python.json") if py_lock else None
+    sbom_node = maybe_cyclonedx_npm(root, gc_dir / "raw/sbom-node.json") if node_lock else None
     lic_viol = 0
     if sbom_py:
         v, _ = evaluate_licenses(sbom_py)

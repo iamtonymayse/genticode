@@ -158,6 +158,25 @@ def main(argv: list[str] | None = None) -> int:
     p_iast = sub.add_parser("iast", help="Run IAST checks (null provider)")
     p_iast.set_defaults(func=cmd_iast)
 
+    # prompt scan
+    def _cmd_prompt(args: argparse.Namespace) -> int:
+        ensure_layout()
+        spans = prompt_scan(ROOT)
+        manifest = build_manifest(spans)
+        # Write JSON manifest (existing behavior)
+        write_manifest(GC_DIR / "prompts.manifest.json", manifest)
+        if args.write_manifest:
+            # Also write a YAML extension containing JSON for determinism
+            (GC_DIR / "prompts.yaml").write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n")
+        print(f"prompts: {len(manifest.get('items', []))}")
+        return 0
+
+    p_prompt = sub.add_parser("prompt", help="Prompt hygiene tools")
+    p_prompt_sub = p_prompt.add_subparsers(dest="prompt_cmd", required=True)
+    p_prompt_scan = p_prompt_sub.add_parser("scan", help="Scan repo for prompt-like literals")
+    p_prompt_scan.add_argument("--write-manifest", action="store_true", help="Also write .genticode/prompts.yaml")
+    p_prompt_scan.set_defaults(func=_cmd_prompt)
+
     # docs build
     def _cmd_docs(args: argparse.Namespace) -> int:
         ensure_layout()
