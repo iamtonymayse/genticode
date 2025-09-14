@@ -113,7 +113,15 @@ def run_supply_pack(root: Path, gc_dir: Path, policy=None) -> dict:
             vulns_total += 1
             s = v.get("severity", "info")
             by_sev[s] = by_sev.get(s, 0) + 1
-    return {"license_violations": int(lic_viol), "vulns": vulns_total, "by_severity": by_sev}
+    comp_py = len((sbom_py or {}).get("components", []) or [])
+    comp_node = len((sbom_node or {}).get("components", []) or [])
+    return {
+        "license_violations": int(lic_viol),
+        "vulns": vulns_total,
+        "by_severity": by_sev,
+        "components": {"python": comp_py, "node": comp_node},
+        "sbom_present": bool(sbom_py or sbom_node),
+    }
 
 
 def run_quality_pack(root: Path, gc_dir: Path, policy=None) -> dict:
