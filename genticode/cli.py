@@ -20,6 +20,8 @@ from .log import get_logger
 from . import VERSION
 from .orchestrator import run_all as run_packs
 from .docsutil import docs_build, gov_check
+from . import VERSION
+import json as _json
 
 
 ROOT = Path(os.getcwd())
@@ -200,6 +202,71 @@ def main(argv: list[str] | None = None) -> int:
 
     p_gov = sub.add_parser("gov", help="Governance checks")
     p_gov.set_defaults(func=_cmd_gov)
+
+    # req/dec helpers (MPI)
+    def _load_json_yaml(path: Path, default):
+        if not path.exists():
+            return default
+        try:
+            return _json.loads(path.read_text())
+        except Exception:
+            return default
+
+    def _dump_json_yaml(data) -> str:
+        return _json.dumps(data, indent=2, sort_keys=True) + "\n"
+
+    def _cmd_req(args: argparse.Namespace) -> int:
+        ensure_layout()
+        SSOT = ROOT / "ssot"
+        SSOT.mkdir(exist_ok=True)
+        req_path = SSOT / "requirements.yaml"
+        reqs = _load_json_yaml(req_path, [])
+        # Build AC list
+        ac_list = []
+        for spec in (args.ac or []):
+            if ":" not in spec:
+                raise SystemExit("--ac must be ID:TEXT")
+            aid, text = spec.split(":", 1)
+            ac_list.append({"id": aid.strip(), "text": text.strip(), "coverage": "required"})
+        # Upsert
+        rec = {"id": args.id, "title": args.title, "status": args.status, "acceptance": ac_list}
+        reqs = [r for r in reqs if r.get("id") != args.id] + [rec]
+        (SSOT / "requirements.yaml").write_text(_dump_json_yaml(reqs))
+        docs_build(ROOT)
+        print(f"req saved: {args.id}")
+        return 0
+
+    def _cmd_dec(args: argparse.Namespace) -> int:
+        ensure_layout()
+        SSOT = ROOT / "ssot"
+        SSOT.mkdir(exist_ok=True)
+        dec_path = SSOT / "decisions.yaml"
+        decs = _load_json_yaml(dec_path, [])
+        rec = {"id": args.id, "context": args.context, "decision": args.decision, "status": args.status}
+        decs = [d for d in decs if d.get("id") != args.id] + [rec]
+        (SSOT / "decisions.yaml").write_text(_dump_json_yaml(decs))
+        docs_build(ROOT)
+        print(f"dec saved: {args.id}")
+        return 0
+
+    # req/dec: new/edit (MPI implements new/upsert)
+    p_req = sub.add_parser("req", help="Manage Requirements (MPI)")
+    p_req_sub = p_req.add_subparsers(dest="req_cmd", required=True)
+    p_req_new = p_req_sub.add_parser("new", help="Create or upsert a Requirement")
+    p_req_new.add_argument("--id", required=True)
+    p_req_new.add_argument("--title", required=True)
+    p_req_new.add_argument("--status", choices=["ready", "in_progress", "done"], default="ready")
+    p_req_new.add_argument("--ac", action="append", help="Acceptance as ID:TEXT (repeat)")
+    p_req_new.set_defaults(func=_cmd_req)
+
+    p_dec = sub.add_parser("dec", help="Manage Decisions (MPI)")
+    p_dec_sub = p_dec.add_subparsers(dest="dec_cmd", required=True)
+    p_dec_new = p_dec_sub.add_parser("new", help="Create or upsert a Decision")
+    p_dec_new.add_argument("--id", required=True)
+    p_dec_new.add_argument("--context", required=True)
+    p_dec_new.add_argument("--decision", required=True)
+    p_dec_new.add_argument("--status", choices=["draft", "accepted", "reversed", "superseded"], default="draft")
+    p_dec_new.set_defaults(func=_cmd_dec)
 
     args = parser.parse_args(argv)
     return int(args.func(args))
