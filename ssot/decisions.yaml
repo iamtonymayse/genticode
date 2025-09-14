@@ -1,0 +1,68 @@
+[
+  {
+    "context": "Lessons ingestion may be good enough unattended in some contexts.",
+    "decision": "Make lessons ingestion configurable: draft by default; optional auto_ready with guardrails and thresholds.",
+    "id": "DEC-2025-09-lessons-config",
+    "status": "accepted"
+  },
+  {
+    "context": "Long-running scans and subprocess risks.",
+    "decision": "Add performance budgets and subprocess hardening (no shell=True, path confinement).",
+    "id": "DEC-2025-09-perf-safe",
+    "status": "accepted"
+  },
+  {
+    "context": "Installability and basic flows must hold across platforms.",
+    "decision": "Package and smoke-install via pipx; run matrix on Linux/macOS.",
+    "id": "DEC-2025-09-pkg-matrix-smoke",
+    "status": "accepted"
+  },
+  {
+    "context": "Policy phase changes lacked auditability.",
+    "decision": "Require a DEC entry when flipping phases (warn\u2192delta\u2192hard) and surface phase in reports.",
+    "id": "DEC-2025-09-policy-audit-trail",
+    "status": "accepted"
+  },
+  {
+    "context": "Prompt-like strings lacked IDs, versions, and redaction discipline.",
+    "decision": "Add prompt scanner and `.genticode/prompts.yaml` manifest; gate on missing id/version/redaction.",
+    "id": "DEC-2025-09-prompt-manifest",
+    "status": "accepted"
+  },
+  {
+    "context": "Dogfooding could recurse on generated artifacts and metadata.",
+    "decision": "Add default ignore set and install hooks to block unsafe test edits.",
+    "id": "DEC-2025-09-recursion-guards",
+    "status": "accepted"
+  },
+  {
+    "context": "Findings visibility and end-to-end confidence were limited.",
+    "decision": "Upload SARIF to PRs and maintain a `genticode-sample` repo for E2E.",
+    "id": "DEC-2025-09-sarif-sample",
+    "status": "accepted"
+  },
+  {
+    "context": "SBOMs risked manual edits and incomplete provenance.",
+    "decision": "Generate SBOMs from lockfiles only. Delta gate on licenses, unknowns, and new high vulns.",
+    "id": "DEC-2025-09-sbom-provenance",
+    "status": "accepted"
+  },
+  {
+    "context": "Docs drifted from design; humans edited markdown directly.",
+    "decision": "Make SSOT YAML the only truth. Generate PRD/ADDH from SSOT. Add gov check that fails on drift or missing DEC/REQ IDs.",
+    "id": "DEC-2025-09-ssot-governance",
+    "status": "accepted"
+  },
+  {
+    "context": "Test reward hacking: nerfed or deleted tests.",
+    "decision": "Require AC markers and waivers for test edits; link ACs to tests and gate on missing coverage for READY ACs.",
+    "id": "DEC-2025-09-trace-enforce",
+    "status": "accepted"
+  },
+  {
+    "context": "Not all users have VS Code; headless flows are needed.",
+    "decision": "Build VS Code TUI and provide CLI parity for REQ/DEC ops with identical validation.",
+    "id": "DEC-2025-09-tui-cli",
+    "status": "accepted"
+  }
+]
