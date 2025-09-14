@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+import re
 from typing import Any
 
 
@@ -21,6 +22,21 @@ def _load_json(path: Path) -> Any:
         return None
 
 
+_SECRET_PATTERNS = [
+    re.compile(r"\b(ghp_[A-Za-z0-9]{20,})\b"),
+    re.compile(r"\b(github_pat_[A-Za-z0-9_]{20,})\b"),
+    re.compile(r"\b(sk-[A-Za-z0-9]{20,})\b"),
+    re.compile(r"\b(AKI[AD][0-9A-Z]{16})\b"),
+]
+
+
+def _redact(text: str) -> str:
+    out = text
+    for pat in _SECRET_PATTERNS:
+        out = pat.sub("<REDACTED>", out)
+    return out
+
+
 def to_sarif(report: dict, gc_dir: Path | None = None) -> dict:
     """Build unified SARIF from available normalized artifacts.
 
@@ -37,7 +53,7 @@ def to_sarif(report: dict, gc_dir: Path | None = None) -> dict:
         for it in pm.get("items", []) or []:
             rid = "prompt.detected"
             rules.setdefault(rid, {"id": rid, "name": "Prompt detected"})
-            message = f"Prompt-like string (role={it.get('role')})"
+            message = _redact(f"Prompt-like string (role={it.get('role')})")
             loc = {
                 "physicalLocation": {
                     "artifactLocation": {"uri": it.get("file")},
@@ -58,7 +74,7 @@ def to_sarif(report: dict, gc_dir: Path | None = None) -> dict:
                 results.append({
                     "ruleId": lid,
                     "level": "warning",
-                    "message": {"text": code},
+                "message": {"text": _redact(code)},
                     "locations": [loc],
                     "properties": {"id": it.get("id")},
                 })
@@ -69,7 +85,7 @@ def to_sarif(report: dict, gc_dir: Path | None = None) -> dict:
         for r in sg.get("results", []) or []:
             rid = str(r.get("check_id") or r.get("extra", {}).get("check_id"))
             sev = (r.get("extra", {}).get("severity") or "info").lower()
-            msg = r.get("extra", {}).get("message") or r.get("message") or rid
+            msg = _redact(r.get("extra", {}).get("message") or r.get("message") or rid)
             path = r.get("path") or r.get("extra", {}).get("path")
             start = (r.get("start", {}) or {}).get("line") or 1
             end = (r.get("end", {}) or {}).get("line") or start

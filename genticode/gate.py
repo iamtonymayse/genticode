@@ -63,6 +63,19 @@ def evaluate(report: dict, baseline: dict | None, budgets: dict | None = None, p
     else:
         rc = decide(max(0, cur_h - base_h), budget_h, "static")
 
+    # Evaluate Supply high vulns if budgeted
+    sup = (budgets.get("supply") if budgets else None) or {}
+    if sup:
+        cur_sup = _get_sev_counts(report, "supply")
+        base_sup = _get_sev_counts(baseline or {}, "supply")
+        cur_hs = int(cur_sup.get("high", 0))
+        base_hs = int(base_sup.get("high", 0))
+        budget_hs = int(sup.get("high", sup.get("vuln_high", 0)) or 0)
+        if phase == "hard":
+            rc = max(rc, decide(cur_hs, budget_hs, "supply"))
+        else:
+            rc = max(rc, decide(max(0, cur_hs - base_hs), budget_hs, "supply"))
+
     # Evaluate Traceability uncovered if budgeted
     tb = (budgets.get("traceability") if budgets else None) or {}
     if tb:

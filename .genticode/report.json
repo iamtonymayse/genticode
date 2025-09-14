@@ -1,6 +1,6 @@
 {
   "baseline": {
-    "present": true
+    "present": false
   },
   "environment": {
     "platform": "Darwin",
@@ -11,7 +11,7 @@
   "packs": [
     {
       "counts": {
-        "prompts": 152
+        "prompts": 165
       },
       "name": "prompt"
     },
@@ -28,7 +28,12 @@
     {
       "counts": {
         "by_severity": {},
+        "components": {
+          "node": 0,
+          "python": 0
+        },
         "license_violations": 0,
+        "sbom_present": false,
         "vulns": 0
       },
       "name": "supply"
