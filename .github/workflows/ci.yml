@@ -45,12 +45,12 @@ jobs:
         run: |
           python -m pip install -U pip pipx
           python -m pipx install .
-          python -m pipx run genticode --version || true
+          genticode --version || true
           # Dogfood: baseline first to make new_code_only deltas zero on first run
-          python -m pipx run genticode init
-          python -m pipx run genticode baseline capture
-          python -m pipx run genticode check
-          python -m pipx run genticode report --sarif
+          python -m genticode init
+          python -m genticode baseline capture
+          python -m genticode check
+          python -m genticode report --sarif
       - name: Generate SARIF
         run: |
           # Duplicate generation in repo root for convenience
