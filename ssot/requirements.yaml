@@ -1,0 +1,271 @@
+[
+  {
+    "acceptance": [
+      {
+        "coverage": "required",
+        "id": "AC-WS-GOV-DEC-REF",
+        "text": "Decision-area diffs require DEC and REQ IDs linked in commit or PR"
+      }
+    ],
+    "id": "REQ-WS-GOV-01",
+    "status": "ready",
+    "title": "Governance check for decision-area diffs"
+  },
+  {
+    "acceptance": [
+      {
+        "coverage": "required",
+        "id": "AC-WS-HOOKS-INSTALL",
+        "text": "`make init` installs pre-commit and pre-push hooks"
+      }
+    ],
+    "id": "REQ-WS-HOOKS-01",
+    "status": "ready",
+    "title": "Local hooks for secrets and test edits"
+  },
+  {
+    "acceptance": [
+      {
+        "coverage": "required",
+        "id": "AC-WS-LESSONS-DRAFT",
+        "text": "`genticode gov propose` emits drafts only by default"
+      }
+    ],
+    "id": "REQ-WS-LESSONS-01",
+    "status": "ready",
+    "title": "Lessons/diff proposal drafts"
+  },
+  {
+    "acceptance": [
+      {
+        "coverage": "required",
+        "id": "AC-WS-LESSONS-AUTO",
+        "text": "Auto_ready works only when thresholds met and no test edits/deletions/budget violations"
+      }
+    ],
+    "id": "REQ-WS-LESSONS-02",
+    "status": "ready",
+    "title": "Configurable unattended mode with guardrails"
+  },
+  {
+    "acceptance": [
+      {
+        "coverage": "required",
+        "id": "AC-WS-MATRIX-GREEN",
+        "text": "Both OSes pass smoke; Windows fails fast with guidance"
+      }
+    ],
+    "id": "REQ-WS-MATRIX-01",
+    "status": "ready",
+    "title": "CI matrix Linux/macOS"
+  },
+  {
+    "acceptance": [
+      {
+        "coverage": "required",
+        "id": "AC-WS-PERF-REPORT",
+        "text": "Per-pack timings in report; gate on >2x regression"
+      }
+    ],
+    "id": "REQ-WS-PERF-01",
+    "status": "ready",
+    "title": "Performance budgets and timing"
+  },
+  {
+    "acceptance": [
+      {
+        "coverage": "required",
+        "id": "AC-WS-PKG-PIPX",
+        "text": "`pipx install genticode` works in CI"
+      }
+    ],
+    "id": "REQ-WS-PKG-01",
+    "status": "ready",
+    "title": "Build and smoke-install package"
+  },
+  {
+    "acceptance": [
+      {
+        "coverage": "required",
+        "id": "AC-WS-PKG-SMOKE",
+        "text": "`init/check/baseline/report` succeed on a temp repo"
+      }
+    ],
+    "id": "REQ-WS-PKG-02",
+    "status": "ready",
+    "title": "CLI smoke on temp repo"
+  },
+  {
+    "acceptance": [
+      {
+        "coverage": "required",
+        "id": "AC-WS-POLICY-DEC",
+        "text": "Phase flips require DEC entry and are rendered in report"
+      }
+    ],
+    "id": "REQ-WS-POLICY-01",
+    "status": "ready",
+    "title": "Policy phase audit trail"
+  },
+  {
+    "acceptance": [
+      {
+        "coverage": "required",
+        "id": "AC-WS-PROMPT-MAN",
+        "text": "`genticode prompt scan --write-manifest` writes deterministic `.genticode/prompts.yaml`"
+      }
+    ],
+    "id": "REQ-WS-PROMPT-01",
+    "status": "ready",
+    "title": "Prompt scanner and manifest"
+  },
+  {
+    "acceptance": [
+      {
+        "coverage": "required",
+        "id": "AC-WS-PROMPT-GATE",
+        "text": "Gate on missing id/version/redaction; findings in report"
+      }
+    ],
+    "id": "REQ-WS-PROMPT-02",
+    "status": "ready",
+    "title": "Prompt hygiene gating"
+  },
+  {
+    "acceptance": [
+      {
+        "coverage": "required",
+        "id": "AC-WS-RECURSE-IGNORE",
+        "text": "Default ignore set enforced across packs and baseline"
+      }
+    ],
+    "id": "REQ-WS-RECURSE-01",
+    "status": "ready",
+    "title": "Recursion guards and ignores"
+  },
+  {
+    "acceptance": [
+      {
+        "coverage": "required",
+        "id": "AC-WS-SAFE-TESTS",
+        "text": "No shell=True; arg allowlists; repo-root confinement; large-file skip notices"
+      }
+    ],
+    "id": "REQ-WS-SAFE-01",
+    "status": "ready",
+    "title": "Subprocess hardening and path confinement"
+  },
+  {
+    "acceptance": [
+      {
+        "coverage": "required",
+        "id": "AC-WS-SAMPLE-E2E",
+        "text": "`genticode-sample` E2E green and repeatable"
+      }
+    ],
+    "id": "REQ-WS-SAMPLE-01",
+    "status": "ready",
+    "title": "Sample repo E2E"
+  },
+  {
+    "acceptance": [
+      {
+        "coverage": "required",
+        "id": "AC-WS-SARIF-ANN",
+        "text": "Annotations visible on PRs in CI"
+      }
+    ],
+    "id": "REQ-WS-SARIF-01",
+    "status": "ready",
+    "title": "SARIF upload to PRs"
+  },
+  {
+    "acceptance": [
+      {
+        "coverage": "required",
+        "id": "AC-WS-SBOM-PROV",
+        "text": "SBOM generated only from lockfiles; manual edits rejected"
+      }
+    ],
+    "id": "REQ-WS-SBOM-01",
+    "status": "ready",
+    "title": "SBOM from lockfiles only"
+  },
+  {
+    "acceptance": [
+      {
+        "coverage": "required",
+        "id": "AC-WS-SBOM-GATE",
+        "text": "Gate on license allowlist, unknown=fail, new high vulns"
+      }
+    ],
+    "id": "REQ-WS-SBOM-02",
+    "status": "ready",
+    "title": "SBOM delta gate"
+  },
+  {
+    "acceptance": [
+      {
+        "coverage": "required",
+        "id": "AC-WS-SSOT-RENDER",
+        "text": "PRD.md and ADDH.md render from SSOT and are byte-stable across runs"
+      },
+      {
+        "coverage": "required",
+        "id": "AC-WS-SSOT-GOV",
+        "text": "gov check fails on doc drift or missing DEC/REQ in decision-area diffs"
+      }
+    ],
+    "id": "REQ-WS-SSOT-01",
+    "status": "ready",
+    "title": "SSOT YAMLs and deterministic doc render"
+  },
+  {
+    "acceptance": [
+      {
+        "coverage": "required",
+        "id": "AC-WS-TRACE-MARK",
+        "text": "READY ACs linked to \u22651 test via marker; gate on missing coverage"
+      }
+    ],
+    "id": "REQ-WS-TRACE-01",
+    "status": "ready",
+    "title": "AC markers and coverage gate"
+  },
+  {
+    "acceptance": [
+      {
+        "coverage": "required",
+        "id": "AC-WS-TRACE-WAIVER",
+        "text": "Test edits require waiver referencing requirement evidence"
+      }
+    ],
+    "id": "REQ-WS-TRACE-02",
+    "status": "ready",
+    "title": "Test edit waiver enforcement"
+  },
+  {
+    "acceptance": [
+      {
+        "coverage": "required",
+        "id": "AC-WS-TUI-UI",
+        "text": "Create/edit REQ and DEC via TUI with validation and diff"
+      }
+    ],
+    "id": "REQ-WS-TUI-01",
+    "status": "ready",
+    "title": "VS Code TUI for REQ/DEC"
+  },
+  {
+    "acceptance": [
+      {
+        "coverage": "required",
+        "id": "AC-WS-TUI-CLI",
+        "text": "Perform same REQ/DEC ops via CLI with identical validation"
+      }
+    ],
+    "id": "REQ-WS-TUI-CLI-01",
+    "status": "ready",
+    "title": "CLI parity for REQ/DEC"
+  }
+]

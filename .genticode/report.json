@@ -1,6 +1,19 @@
 {
   "baseline": {
-    "present": true
+    "present": false
+  },
+  "delta": {
+    "prompt": {
+      "lints": {
+        "PROMPT_MISSING_ID": 282,
+        "PROMPT_MISSING_VERSION": 283
+      }
+    },
+    "supply": {
+      "license_violations": 0,
+      "new_high": 0,
+      "vulns": {}
+    }
   },
   "environment": {
     "platform": "Darwin",
@@ -11,24 +24,36 @@
   "packs": [
     {
       "counts": {
-        "prompts": 138
+        "duration_ms": 80,
+        "lints": {
+          "PROMPT_MISSING_ID": 282,
+          "PROMPT_MISSING_VERSION": 283
+        },
+        "prompts": 284
       },
       "name": "prompt"
     },
     {
       "counts": {
         "by_severity": {
-          "high": 11
+          "high": 21
         },
+        "duration_ms": 80,
         "findings": 0,
-        "secrets": 11
+        "secrets": 21
       },
       "name": "static"
     },
     {
       "counts": {
         "by_severity": {},
+        "components": {
+          "node": 0,
+          "python": 0
+        },
+        "duration_ms": 1429,
         "license_violations": 0,
+        "sbom_present": false,
         "vulns": 0
       },
       "name": "supply"
@@ -36,6 +61,7 @@
     {
       "counts": {
         "by_severity": {},
+        "duration_ms": 1429,
         "findings": 0
       },
       "name": "quality"
@@ -44,6 +70,7 @@
       "counts": {
         "ac_ids": 0,
         "covered": 0,
+        "duration_ms": 1429,
         "uncovered": 0
       },
       "name": "traceability"

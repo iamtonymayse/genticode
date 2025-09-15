@@ -112,6 +112,27 @@ def test_policy_packs_mapping_and_ruleset(tmp_path):
     assert cfg.get_budget("static", "high") == 1
 
 
+def test_policy_licenses_section(tmp_path):
+    from genticode import policy
+    p = tmp_path / "policy.yaml"
+    p.write_text("licenses: {allow: [MIT], deny: [AGPL-3.0], fail_on_unknown: false}\n")
+    cfg = policy.load(p)
+    assert isinstance(cfg.licenses, dict)
+    assert cfg.licenses.get("fail_on_unknown") is False
+
+
+def test_policy_licenses_invalid_type(tmp_path):
+    from genticode import policy
+    p = tmp_path / "policy.yaml"
+    p.write_text("licenses: [1,2,3]\n")
+    try:
+        policy.load(p)
+    except policy.PolicyError as e:
+        assert "licenses" in str(e)
+    else:
+        raise AssertionError("expected PolicyError")
+
+
 def test_policy_pack_must_be_mapping(tmp_path):
     from genticode import policy
     p = tmp_path / "policy.yaml"

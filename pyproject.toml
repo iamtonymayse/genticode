@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "genticode"
+version = "0.1a"
+description = "Genticode: local-first quality, security, and governance packs with reports"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{ name = "Genticode Team" }]
+license = { text = "Proprietary" }
+keywords = ["quality", "security", "governance", "reports", "sbom", "sarif"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Environment :: Console",
+]
+
+[project.scripts]
+genticode = "genticode.__main__:main"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["genticode*"]
+exclude = ["tests*"]
+

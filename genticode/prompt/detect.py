@@ -117,7 +117,7 @@ def scan_repo(root: Path) -> list[PromptSpan]:
     for dirpath, dirnames, filenames in os.walk(root):
         # Skip common vendor and internal dirs
         rel = os.path.relpath(dirpath, root)
-        if rel.startswith(".git") or rel.startswith(".genticode") or rel.startswith(".venv") or "node_modules" in rel:
+        if (rel.startswith(".git") or rel.startswith(".genticode") or rel.startswith(".venv") or "node_modules" in rel or rel.startswith("ssot") or rel.startswith("images") or rel.startswith("docs/templates") or rel.startswith("build") or rel.startswith("dist")):
             continue
         for fn in filenames:
             p = Path(dirpath) / fn

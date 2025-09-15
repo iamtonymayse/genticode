@@ -19,6 +19,9 @@ from .traceability import load_priority
 from .log import get_logger
 from . import VERSION
 from .orchestrator import run_all as run_packs
+from .docsutil import docs_build, gov_check
+from . import VERSION
+import json as _json
 
 
 ROOT = Path(os.getcwd())
@@ -68,8 +71,7 @@ def cmd_check(_: argparse.Namespace) -> int:
     report = build_empty_report(version=VERSION, baseline_present=baseline_present)
     # Delegate pack execution to orchestrator (policy-aware)
     run_packs(policy, ROOT, GC_DIR, report)
-    write_json(GC_DIR / "report.json", report)
-    # Gating vs baseline
+    # Load baseline for delta/gating
     base_path = GC_DIR / "baseline" / "report.json"
     baseline = None
     if base_path.exists():
@@ -77,6 +79,41 @@ def cmd_check(_: argparse.Namespace) -> int:
             baseline = json.loads(base_path.read_text())
         except Exception:
             baseline = None
+    # Compute delta summary against baseline for select packs
+    def _pack(name: str, data: dict | None) -> dict:
+        if not data:
+            return {}
+        for p in (data.get("packs", []) or []):
+            if p.get("name") == name:
+                return p.get("counts", {}) or {}
+        return {}
+    delta: dict = {}
+    base_counts = baseline or {}
+    # Prompt lints delta
+    cur_prompt = _pack("prompt", report)
+    base_prompt = _pack("prompt", base_counts)
+    if cur_prompt:
+        cur_l = cur_prompt.get("lints") or {}
+        base_l = base_prompt.get("lints") or {}
+        keys = set(cur_l) | set(base_l)
+        delta["prompt"] = {"lints": {k: int(cur_l.get(k, 0)) - int(base_l.get(k, 0)) for k in sorted(keys)}}
+    # Supply summary delta
+    cur_sup = _pack("supply", report)
+    base_sup = _pack("supply", base_counts)
+    if cur_sup or base_sup:
+        cur_by = (cur_sup.get("by_severity") or {})
+        base_by = (base_sup.get("by_severity") or {})
+        sev_keys = set(cur_by) | set(base_by)
+        new_high = max(0, int(cur_by.get("high", 0)) - int(base_by.get("high", 0)))
+        delta["supply"] = {
+            "license_violations": int(cur_sup.get("license_violations", 0)) - int(base_sup.get("license_violations", 0)),
+            "vulns": {k: int(cur_by.get(k, 0)) - int(base_by.get(k, 0)) for k in sorted(sev_keys)},
+            "new_high": new_high,
+        }
+    if delta:
+        report["delta"] = delta
+    write_json(GC_DIR / "report.json", report)
+    # Gating vs baseline
     # Use policy budgets if available
     suppressions = load_suppressions(GC_DIR)
     rc, _summary = gate_evaluate(
@@ -156,6 +193,175 @@ def main(argv: list[str] | None = None) -> int:
 
     p_iast = sub.add_parser("iast", help="Run IAST checks (null provider)")
     p_iast.set_defaults(func=cmd_iast)
+
+    # prompt scan
+    def _cmd_prompt(args: argparse.Namespace) -> int:
+        ensure_layout()
+        spans = prompt_scan(ROOT)
+        manifest = build_manifest(spans)
+        # Write JSON manifest (existing behavior)
+        write_manifest(GC_DIR / "prompts.manifest.json", manifest)
+        if args.write_manifest:
+            # Also write a YAML extension containing JSON for determinism
+            (GC_DIR / "prompts.yaml").write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n")
+        print(f"prompts: {len(manifest.get('items', []))}")
+        return 0
+
+    p_prompt = sub.add_parser("prompt", help="Prompt hygiene tools")
+    p_prompt_sub = p_prompt.add_subparsers(dest="prompt_cmd", required=True)
+    p_prompt_scan = p_prompt_sub.add_parser("scan", help="Scan repo for prompt-like literals")
+    p_prompt_scan.add_argument("--write-manifest", action="store_true", help="Also write .genticode/prompts.yaml")
+    p_prompt_scan.set_defaults(func=_cmd_prompt)
+
+    # docs build
+    def _cmd_docs(args: argparse.Namespace) -> int:
+        ensure_layout()
+        docs_build(ROOT)
+        print(str(GC_DIR / "raw" / "docs_render"))
+        return 0
+
+    p_docs = sub.add_parser("docs", help="Docs operations")
+    p_docs_sub = p_docs.add_subparsers(dest="docs_cmd", required=True)
+    p_docs_build = p_docs_sub.add_parser("build", help="Render docs snapshot deterministically")
+    p_docs_build.set_defaults(func=_cmd_docs)
+
+    # gov check
+    def _cmd_gov(args: argparse.Namespace) -> int:
+        ok, msg = gov_check(ROOT)
+        if not ok:
+            print(msg)
+            return 2
+        print("gov check: ok")
+        return 0
+
+    def _cmd_gov_propose(args: argparse.Namespace) -> int:
+        ensure_layout()
+        source = args.source
+        SSOT = ROOT / "ssot"
+        SSOT.mkdir(exist_ok=True)
+        def _load(path: Path, default):
+            try:
+                return _json.loads(path.read_text())
+            except Exception:
+                return default
+        req_path = SSOT / "requirements.yaml"
+        dec_path = SSOT / "decisions.yaml"
+        reqs = _load(req_path, [])
+        decs = _load(dec_path, [])
+        import datetime as _dt
+        today = _dt.date.today()
+        dec_id = f"DEC-{today.year:04d}-{today.month:02d}-GovPropose"
+        decs = [d for d in decs if d.get("id") != dec_id] + [{
+            "id": dec_id,
+            "context": f"Proposals derived from {source}",
+            "decision": "Adopt proposals for next sprint",
+            "status": "draft",
+        }]
+        req_id = "REQ-GOV-PROPOSE-01"
+        if not any(r.get("id") == req_id for r in reqs):
+            reqs.append({
+                "id": req_id,
+                "title": f"Gov proposals from {source}",
+                "status": "ready",
+                "acceptance": [{"id": "AC-GOV-PROP-01", "text": "Draft proposals appear for review", "coverage": "required"}],
+            })
+        req_path.write_text(_json.dumps(reqs, indent=2, sort_keys=True) + "\n")
+        dec_path.write_text(_json.dumps(decs, indent=2, sort_keys=True) + "\n")
+        docs_build(ROOT)
+        print(f"proposed: {dec_id} and {req_id}")
+        return 0
+
+    p_gov = sub.add_parser("gov", help="Governance checks")
+    p_gov.set_defaults(func=_cmd_gov)
+    p_gov_sub = p_gov.add_subparsers(dest="gov_cmd")
+    p_gov_prop = p_gov_sub.add_parser("propose", help="Produce draft DEC/REQ proposals")
+    p_gov_prop.add_argument("--from", dest="source", choices=["lessons", "diff"], default="lessons")
+    p_gov_prop.set_defaults(func=_cmd_gov_propose)
+
+    # req/dec helpers (MPI)
+    def _load_json_yaml(path: Path, default):
+        if not path.exists():
+            return default
+        try:
+            return _json.loads(path.read_text())
+        except Exception:
+            return default
+
+    def _dump_json_yaml(data) -> str:
+        return _json.dumps(data, indent=2, sort_keys=True) + "\n"
+
+    def _cmd_req(args: argparse.Namespace) -> int:
+        ensure_layout()
+        SSOT = ROOT / "ssot"
+        SSOT.mkdir(exist_ok=True)
+        req_path = SSOT / "requirements.yaml"
+        reqs = _load_json_yaml(req_path, [])
+        # Build AC list
+        ac_list = []
+        for spec in (args.ac or []):
+            if ":" not in spec:
+                raise SystemExit("--ac must be ID:TEXT")
+            aid, text = spec.split(":", 1)
+            ac_list.append({"id": aid.strip(), "text": text.strip(), "coverage": "required"})
+        # Minimal validations (MPI)
+        import re as _re
+        if not _re.match(r"^REQ-[A-Z0-9-]+$", args.id):
+            raise SystemExit("invalid REQ id format; expected REQ-*")
+        if not ac_list:
+            raise SystemExit("at least one --ac ID:TEXT is required")
+        # Upsert
+        rec = {"id": args.id, "title": args.title, "status": args.status, "acceptance": ac_list}
+        reqs = [r for r in reqs if r.get("id") != args.id] + [rec]
+        (SSOT / "requirements.yaml").write_text(_dump_json_yaml(reqs))
+        docs_build(ROOT)
+        print(f"req saved: {args.id}")
+        return 0
+
+    def _cmd_dec(args: argparse.Namespace) -> int:
+        ensure_layout()
+        SSOT = ROOT / "ssot"
+        SSOT.mkdir(exist_ok=True)
+        dec_path = SSOT / "decisions.yaml"
+        decs = _load_json_yaml(dec_path, [])
+        import re as _re
+        if not _re.match(r"^DEC-\d{4}-\d{2}-.+\Z", args.id):
+            raise SystemExit("invalid DEC id format; expected DEC-YYYY-MM-*")
+        rec = {"id": args.id, "context": args.context, "decision": args.decision, "status": args.status}
+        decs = [d for d in decs if d.get("id") != args.id] + [rec]
+        (SSOT / "decisions.yaml").write_text(_dump_json_yaml(decs))
+        docs_build(ROOT)
+        print(f"dec saved: {args.id}")
+        return 0
+
+    # req/dec: new/edit (MPI implements new/upsert)
+    p_req = sub.add_parser("req", help="Manage Requirements (MPI)")
+    p_req_sub = p_req.add_subparsers(dest="req_cmd", required=True)
+    p_req_new = p_req_sub.add_parser("new", help="Create or upsert a Requirement")
+    p_req_new.add_argument("--id", required=True)
+    p_req_new.add_argument("--title", required=True)
+    p_req_new.add_argument("--status", choices=["ready", "in_progress", "done"], default="ready")
+    p_req_new.add_argument("--ac", action="append", help="Acceptance as ID:TEXT (repeat)")
+    p_req_new.set_defaults(func=_cmd_req)
+    # edit alias
+    p_req_edit = p_req_sub.add_parser("edit", help="Edit or upsert a Requirement")
+    for a in p_req_new._actions[1:]:  # reuse args definition (skip help)
+        if a.option_strings:
+            p_req_edit.add_argument(*a.option_strings, **{k: v for k, v in a.__dict__.items() if k in ("choices", "default", "dest", "help", "metavar", "nargs", "required", "type", "action") and v is not None})
+    p_req_edit.set_defaults(func=_cmd_req)
+
+    p_dec = sub.add_parser("dec", help="Manage Decisions (MPI)")
+    p_dec_sub = p_dec.add_subparsers(dest="dec_cmd", required=True)
+    p_dec_new = p_dec_sub.add_parser("new", help="Create or upsert a Decision")
+    p_dec_new.add_argument("--id", required=True)
+    p_dec_new.add_argument("--context", required=True)
+    p_dec_new.add_argument("--decision", required=True)
+    p_dec_new.add_argument("--status", choices=["draft", "accepted", "reversed", "superseded"], default="draft")
+    p_dec_new.set_defaults(func=_cmd_dec)
+    p_dec_edit = p_dec_sub.add_parser("edit", help="Edit or upsert a Decision")
+    for a in p_dec_new._actions[1:]:
+        if a.option_strings:
+            p_dec_edit.add_argument(*a.option_strings, **{k: v for k, v in a.__dict__.items() if k in ("choices", "default", "dest", "help", "metavar", "nargs", "required", "type", "action") and v is not None})
+    p_dec_edit.set_defaults(func=_cmd_dec)
 
     args = parser.parse_args(argv)
     return int(args.func(args))

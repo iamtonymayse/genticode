@@ -5,6 +5,8 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
+Status: v0.97.0‑beta “Water Spider”
+
 Genticode reduces risk and noise when coding with AI. It is IDE‑neutral, CLI‑first, and local‑first. It targets Python and TypeScript/JavaScript parity and produces a single normalized report you can gate on in CI.
 
 ---

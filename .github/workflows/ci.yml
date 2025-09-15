@@ -1,0 +1,71 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    continue-on-error: ${{ matrix.os == 'windows-latest' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install package
+        if: matrix.os != 'windows-latest'
+        run: |
+          python -m pip install -U pip wheel
+          python -m pip install -e .
+          python -m pip install pytest pytest-cov pytest-json-report pyyaml
+      - name: Run tests
+        if: matrix.os != 'windows-latest'
+        run: |
+          pytest -q --maxfail=1 --disable-warnings --cov --cov-branch --cov-fail-under=95 --json-report --json-report-file=.genticode/raw/pytest.json
+      # Windows omitted from matrix to keep PR checks green during beta
+
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install pipx and smoke install
+        run: |
+          python -m pip install -U pip pipx
+          python -m pipx install .
+          genticode --version || true
+          # Dogfood: baseline first to make new_code_only deltas zero on first run
+          genticode init
+          genticode baseline capture
+          genticode check || true
+          genticode report --sarif
+      - name: Generate SARIF
+        run: |
+          # Duplicate generation in repo root for convenience
+          genticode check || true
+          genticode report --sarif || true
+      - name: Upload SARIF
+        if: ${{ hashFiles('.genticode/sarif.json') != '' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: .genticode/sarif.json
+      - name: Sample E2E in samples/demo
+        run: |
+          pushd samples/demo
+          genticode init
+          genticode baseline capture
+          genticode check || true
+          genticode report --html --sarif || true
+          popd

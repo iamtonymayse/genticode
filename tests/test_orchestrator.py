@@ -41,6 +41,10 @@ def test_orchestrator_continues_on_pack_error(tmp_path, monkeypatch):
     summary = {p["name"]: p for p in report["packs"]}
     assert "prompt" in summary and "quality" in summary and "static" in summary
     assert summary["static"]["counts"].get("error")
+    # duration recorded for successful packs
+    assert isinstance(summary["prompt"]["counts"].get("duration_ms"), int)
+    # duration recorded on error path as well
+    assert isinstance(summary["static"]["counts"].get("duration_ms"), int)
 
 
 def test_pack_helper_quality_and_traceability(tmp_path, monkeypatch):

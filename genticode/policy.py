@@ -23,6 +23,7 @@ class PolicyConfig:
     progressive_enforcement: Dict[str, Any] = field(default_factory=lambda: {"phase": "new_code_only"})
     packs: Dict[str, PackConfig] = field(default_factory=dict)
     budgets: Dict[str, Any] = field(default_factory=dict)
+    licenses: Dict[str, Any] = field(default_factory=dict)
 
     def get_phase(self) -> str:
         return str(self.progressive_enforcement.get("phase", "warn"))
@@ -68,6 +69,7 @@ def load(path) -> PolicyConfig:
     _validate_dict(raw, "progressive_enforcement", dict)
     _validate_dict(raw, "packs", dict)
     _validate_dict(raw, "budgets", dict)
+    _validate_dict(raw, "licenses", dict)
 
     if "version" in raw:
         cfg.version = int(raw["version"])
@@ -94,5 +96,8 @@ def load(path) -> PolicyConfig:
             packs[name] = PackConfig(enabled=enabled, timeout_s=timeout_s, ruleset=ruleset)
         cfg.packs = packs
 
-    return cfg
+    # Optional license rules (allow/deny/fail_on_unknown)
+    if "licenses" in raw:
+        cfg.licenses = dict(raw["licenses"])  # type: ignore[assignment]
 
+    return cfg

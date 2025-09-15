@@ -1,0 +1,2 @@
+[console_scripts]
+genticode = genticode.__main__:main

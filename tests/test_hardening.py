@@ -17,6 +17,7 @@ def test_orchestrator_enforces_timeouts(tmp_path):
     out = run_all(pol, tmp_path, tmp_path / ".genticode", report, packs=packs)
     slow = next(p for p in out["packs"] if p["name"] == "slow")
     assert slow["counts"].get("error") == "timeout"
+    assert isinstance(slow["counts"].get("duration_ms"), int)
 
 
 def test_large_files_skipped_in_scanners(tmp_path, monkeypatch):

@@ -16,6 +16,21 @@ def maybe_run_semgrep(root: Path, out_path: Path, timeout_s: int = 120, configs:
     cmd = ["semgrep", "--error"]
     for c in cfgs:
         cmd += ["--config", c]
+    # Exclude generated and non-source paths
+    excludes = [
+        ".git",
+        ".genticode",
+        ".venv",
+        "node_modules",
+        "ssot",
+        "images",
+        "docs/templates",
+        "build",
+        "dist",
+    ]
+    for ex in excludes:
+        cmd += ["--exclude", ex]
+
     cmd += [
         "--json",
         "--timeout",
