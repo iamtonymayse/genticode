@@ -4,6 +4,10 @@ on:
   push:
   pull_request:
 
+permissions:
+  contents: read
+  security-events: write
+
 jobs:
   build:
     runs-on: ${{ matrix.os }}
@@ -53,7 +57,7 @@ jobs:
           genticode check || true
           genticode report --sarif || true
       - name: Upload SARIF
-        if: ${{ hashFiles('.genticode/sarif.json') != '' }}
+        if: ${{ hashFiles('.genticode/sarif.json') != '' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: .genticode/sarif.json
