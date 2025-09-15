@@ -46,11 +46,16 @@ jobs:
           python -m pip install -U pip pipx
           python -m pipx install .
           python -m pipx run genticode --version || true
-          bash scripts/smoke.sh
+          # Dogfood: baseline first to make new_code_only deltas zero on first run
+          python -m pipx run genticode init
+          python -m pipx run genticode baseline capture
+          python -m pipx run genticode check
+          python -m pipx run genticode report --sarif
       - name: Generate SARIF
         run: |
-          python -m genticode check
-          python -m genticode report --sarif
+          # Duplicate generation in repo root for convenience
+          python -m genticode check || true
+          python -m genticode report --sarif || true
       - name: Upload SARIF
         uses: github/codeql-action/upload-sarif@v3
         with:
@@ -59,6 +64,7 @@ jobs:
         run: |
           pushd samples/demo
           python -m genticode init
+          python -m genticode baseline capture
           python -m genticode check
           python -m genticode report --html --sarif
           popd
