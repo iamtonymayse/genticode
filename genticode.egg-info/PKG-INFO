@@ -1,11 +1,22 @@
+Metadata-Version: 2.4
+Name: genticode
+Version: 0.1a0
+Summary: Genticode: local-first quality, security, and governance packs with reports
+Author: Genticode Team
+License: Proprietary
+Keywords: quality,security,governance,reports,sbom,sarif
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Environment :: Console
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+
 
 # Genticode 🧬
 
 > Policy‑driven guardrails for AI‑assisted coding: one run, one report, one gate.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-
-Status: v0.97.0‑beta “Water Spider”
 
 Genticode reduces risk and noise when coding with AI. It is IDE‑neutral, CLI‑first, and local‑first. It targets Python and TypeScript/JavaScript parity and produces a single normalized report you can gate on in CI.
 

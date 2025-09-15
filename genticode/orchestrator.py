@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 import concurrent.futures as cf
 import os
+import time
 from pathlib import Path
 from typing import Callable, Dict
 
@@ -39,7 +40,12 @@ def run_prompt_pack(root: Path, gc_dir: Path, policy=None) -> dict:
         )
         + "\n"
     )
-    return {"prompts": len(manifest["items"])}
+    # Count lints
+    lint_counts: dict[str, int] = {}
+    for it in manifest.get("items", []) or []:
+        for code in it.get("lints", []) or []:
+            lint_counts[code] = int(lint_counts.get(code, 0)) + 1
+    return {"prompts": len(manifest["items"]), "lints": lint_counts}
 
 
 def run_static_pack(root: Path, gc_dir: Path, policy=None) -> dict:
@@ -68,35 +74,37 @@ def run_static_pack(root: Path, gc_dir: Path, policy=None) -> dict:
     return counts
 
 
-def _has_any(root: Path, names: list[str]) -> bool:
-    for n in names:
-        if (root / n).exists():
-            return True
-    return False
-
-
 def run_supply_pack(root: Path, gc_dir: Path, policy=None) -> dict:
-    # Lockfile-only SBOM provenance (MPI): run only when lockfiles present
-    py_lock = _has_any(root, [
-        "requirements.lock",
-        "requirements.txt",  # allow minimal case during bootstrap
-        "poetry.lock",
-        "uv.lock",
-        "pip-tools.lock",
-    ])
-    node_lock = _has_any(root, [
-        "package-lock.json",
-        "pnpm-lock.yaml",
-        "yarn.lock",
-    ])
-    sbom_py = maybe_cyclonedx_py(root, gc_dir / "raw/sbom-python.json") if py_lock else None
-    sbom_node = maybe_cyclonedx_npm(root, gc_dir / "raw/sbom-node.json") if node_lock else None
+    # Invoke adapters unconditionally; adapters or tools decide provenance.
+    sbom_py = maybe_cyclonedx_py(root, gc_dir / "raw/sbom-python.json")
+    sbom_node = maybe_cyclonedx_npm(root, gc_dir / "raw/sbom-node.json")
+    # Optional: enforce lockfile-only provenance via policy.licenses.lockfile_only
+    try:
+        lockfile_only = bool((getattr(policy, "licenses", None) or {}).get("lockfile_only", False))
+    except Exception:
+        lockfile_only = False
+    if lockfile_only:
+        has_py_lock = any((root / n).exists() for n in ["requirements.lock", "poetry.lock", "uv.lock", "pip-tools.lock"])
+        has_node_lock = any((root / n).exists() for n in ["package-lock.json", "pnpm-lock.yaml", "yarn.lock"])
+        if not has_py_lock:
+            sbom_py = None
+        if not has_node_lock:
+            sbom_node = None
+    # License policy (allow/deny/unknown)
+    allow = deny = None
+    fail_unknown = True
+    if getattr(policy, "licenses", None):
+        lp = policy.licenses or {}
+        allow = set(lp.get("allow", []) or [])
+        deny = set(lp.get("deny", []) or [])
+        if "fail_on_unknown" in lp:
+            fail_unknown = bool(lp.get("fail_on_unknown"))
     lic_viol = 0
     if sbom_py:
-        v, _ = evaluate_licenses(sbom_py)
+        v, _ = evaluate_licenses(sbom_py, allow=allow, deny=deny, fail_on_unknown=fail_unknown)
         lic_viol += v
     if sbom_node:
-        v, _ = evaluate_licenses(sbom_node)
+        v, _ = evaluate_licenses(sbom_node, allow=allow, deny=deny, fail_on_unknown=fail_unknown)
         lic_viol += v
     # Vulnerabilities
     vulns_total = 0
@@ -161,14 +169,18 @@ def run_all(policy, root: Path, gc_dir: Path, report: dict, packs: Dict[str, Pac
             if not enabled:
                 continue
             fut = ex.submit(runner.func, root, gc_dir, policy)
-            tasks.append((name, fut, timeout_s))
+            tasks.append((name, fut, timeout_s, time.perf_counter()))
 
-        for name, fut, timeout_s in tasks:
+        for name, fut, timeout_s, t0 in tasks:
             try:
                 counts = fut.result(timeout=timeout_s)
-                add_pack_summary(report, pack=name, counts=counts or {})
+                elapsed_ms = int((time.perf_counter() - t0) * 1000)
+                if isinstance(counts, dict):
+                    counts = {**counts, "duration_ms": elapsed_ms}
+                add_pack_summary(report, pack=name, counts=counts or {"duration_ms": elapsed_ms})
             except cf.TimeoutError:
-                add_pack_summary(report, pack=name, counts={"error": "timeout", "timeout_s": timeout_s})
+                add_pack_summary(report, pack=name, counts={"error": "timeout", "timeout_s": timeout_s, "duration_ms": int(timeout_s * 1000)})
             except Exception as e:  # noqa: BLE001 — continue on pack failure
-                add_pack_summary(report, pack=name, counts={"error": str(e)})
+                elapsed_ms = int((time.perf_counter() - t0) * 1000)
+                add_pack_summary(report, pack=name, counts={"error": str(e), "duration_ms": elapsed_ms})
     return report

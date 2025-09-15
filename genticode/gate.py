@@ -10,6 +10,13 @@ def _get_sev_counts(report: dict, pack: str) -> dict:
     return {}
 
 
+def _get_counts_map(report: dict, pack: str, key: str) -> dict:
+    for p in (report.get("packs", []) or []):
+        if p.get("name") == pack:
+            return (p.get("counts", {}).get(key)) or {}
+    return {}
+
+
 PACK_COUNT_KEYS = {
     "prompt": "prompts",
     "static": "findings",
@@ -76,6 +83,17 @@ def evaluate(report: dict, baseline: dict | None, budgets: dict | None = None, p
         else:
             rc = max(rc, decide(max(0, cur_hs - base_hs), budget_hs, "supply"))
 
+    # Evaluate Prompt lints if budgeted
+    pb = (budgets.get("prompt") if budgets else None) or {}
+    if isinstance(pb, dict) and pb.get("lints"):
+        cur_lints = _get_counts_map(report, "prompt", "lints")
+        base_lints = _get_counts_map(baseline or {}, "prompt", "lints")
+        for code, limit in (pb.get("lints") or {}).items():
+            cur_c = int(cur_lints.get(code, 0))
+            base_c = int(base_lints.get(code, 0))
+            delta = cur_c if phase == "hard" else max(0, cur_c - base_c)
+            rc = max(rc, decide(delta, int(limit), "prompt"))
+
     # Evaluate Traceability uncovered if budgeted
     tb = (budgets.get("traceability") if budgets else None) or {}
     if tb:
@@ -96,6 +114,28 @@ def evaluate(report: dict, baseline: dict | None, budgets: dict | None = None, p
             rc = max(rc, 2)
         if phase != "hard" and delta_budget is not None and max(0, cur_u - base_u) > int(delta_budget):
             rc = max(rc, 1 if phase == "warn" else 2)
+
+    # Performance regression gate (factor over baseline)
+    perf = (budgets.get("performance") if budgets else None) or {}
+    factor_max = float(perf.get("factor_max", 0)) if perf else 0.0
+    if baseline is not None and factor_max and factor_max > 0:
+        # Build duration maps
+        def _durations(d: dict | None) -> dict[str, int]:
+            out: dict[str, int] = {}
+            if not d:
+                return out
+            for p in (d.get("packs", []) or []):
+                name = p.get("name")
+                dur = int((p.get("counts", {}) or {}).get("duration_ms", 0))
+                if name:
+                    out[str(name)] = dur
+            return out
+        cur_d = _durations(report)
+        base_d = _durations(baseline)
+        for name, cur_ms in cur_d.items():
+            base_ms = int(base_d.get(name, 0))
+            if base_ms > 0 and cur_ms > base_ms * factor_max:
+                rc = max(rc, 1 if phase == "warn" else 2)
 
     # Evaluate other packs by count if budgets provided
     for pack, key in PACK_COUNT_KEYS.items():

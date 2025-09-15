@@ -54,4 +54,10 @@ jobs:
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: .genticode/sarif.json
-
+      - name: Sample E2E in samples/demo
+        run: |
+          pushd samples/demo
+          python -m genticode init
+          python -m genticode check
+          python -m genticode report --html --sarif
+          popd

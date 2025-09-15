@@ -11,7 +11,6 @@ Design goals (MPI):
 - Deep-merge for POLICY patches
 - Deterministic JSON-in-YAML output (YAML accepts JSON)
 """
-from __future__ import annotations
 
 import argparse
 import difflib
@@ -144,14 +143,25 @@ def compute_changes(feed: list[dict]) -> list[PendingChange]:
     decs_new = sorted(list(dec_by_id.values()), key=lambda d: d.get("id", ""))
 
     changes: list[PendingChange] = []
-    for path, cur in (
-        (REQ_PATH, _dump_json_yaml(reqs)),
-        (DEC_PATH, _dump_json_yaml(decs)),
-        (POLICY_PATH, _dump_json_yaml(policy)),
-    ):
-        new_txt = _dump_json_yaml({REQ_PATH: reqs_new, DEC_PATH: decs_new, POLICY_PATH: policy}[path])
-        if cur != new_txt:
-            changes.append(PendingChange(path=path, old=cur, new=new_txt))
+    # Determine old vs new textual representations
+    def _old_text(p: Path, default_obj: Any) -> str:
+        if p.exists():
+            try:
+                return p.read_text()
+            except Exception:
+                return _dump_json_yaml(default_obj)
+        return _dump_json_yaml(default_obj)
+
+    planned = {
+        REQ_PATH: reqs_new,
+        DEC_PATH: decs_new,
+        POLICY_PATH: policy,
+    }
+    for path, obj in planned.items():
+        old_txt = _old_text(path, [] if path != POLICY_PATH else {})
+        new_txt = _dump_json_yaml(obj)
+        if old_txt != new_txt:
+            changes.append(PendingChange(path=path, old=old_txt, new=new_txt))
     return changes
 
 
@@ -214,4 +224,3 @@ def main(argv: list[str] | None = None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
