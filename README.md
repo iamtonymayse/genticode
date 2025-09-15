@@ -1,72 +1,43 @@
-
 # Genticode 🧬
 
 > Policy‑driven guardrails for AI‑assisted coding: one run, one report, one gate.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-Status: v0.97.0‑beta “Water Spider”
+**Status:** v0.97.0‑beta “Water Spider”
 
-Genticode reduces risk and noise when coding with AI. It is IDE‑neutral, CLI‑first, and local‑first. It targets Python and TypeScript/JavaScript parity and produces a single normalized report you can gate on in CI.
-
----
-
-## Visual Overview
-
-### Team Genticode vs the Chaos Monster
-![Team vs Monster](images/01_team_vs_monster.png)
-
-### Pipeline: One run → One report → One gate
-![Pipeline](images/02_pipeline.png)
-
-### The Lessons Loop
-![Lessons Loop](images/03_lessons_loop.png)
-
-### Policy Phases
-![Policy Phases](images/04_policy_phases.png)
-
-### Packs → Outputs
-![Pack Mapping](images/05_pack_mapping.png)
+Genticode reduces risk and noise when coding with AI. IDE‑neutral, CLI‑first, local‑first. Python and TypeScript/JavaScript first‑class. Single normalized report for CI gates.
 
 ---
 
-## What Genticode Does
+## TL;DR value
+- **Lessons Loop** turns failures into better future runs without weakening tests.
+- **Single artifact** (`.genticode/report.json`) → SARIF + HTML for PRs.
+- **Baselines & budgets**: only new issues fail the build.
+- **Prompt hygiene**: track prompt‑like strings and prevent drift.
+- **Policy presets**: _lite_, _team_, _regulated_ (switchable).
+- **Deterministic**: same inputs → same outputs.
 
-- **Static, Supply, Quality, and Traceability packs** run under one policy.  
-- **Single artifact model:** `.genticode/report.json` → transforms to `sarif.json` and `report.html`.  
-- **Baselines and budgets:** evaluate deltas by default so existing debt does not block you.  
-- **Prompt hygiene:** detect prompt‑like strings, enforce IDs/versions, and safe redaction.  
-
-Design sources: [ADDH_v0_9.md](ADDH_v0_9.md), [PRD.md](PRD.md), [ROADMAP.md](ROADMAP.md), [SPRINT_PLAN.md](SPRINT_PLAN.md).
-
----
-
-## The Lessons Loop (central)
-
-Genticode encodes a multi‑pass, evidence‑driven loop to turn red test runs into better future runs **without** nerfing tests.
-
-- Run the full suite once per attempt with timeouts.  
-- Adjudicate failures (CODE_FIX, TEST_UPDATE with requirement proof, HARNESS_UPDATE, FLAKY, REQUIREMENT_GAP, KNOWN_FAIL).  
-- Write 5‑Whys lessons and preventive controls; merge to `LESSONS_CURRENT.md`.  
-- Reset to the pre‑sprint tag, rebuild with lessons, retry. Cap attempts; split if failures persist.  
-- Test edits require a waiver with evidence; deletions are blocked.
+<p align="center">
+  <img src="images/01_team_vs_monster.png" alt="Team vs Monster" width="720"/>
+</p>
 
 ---
 
-## Quick Start
+## Quick win in 5 minutes
 
 ```bash
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements-dev.txt
-make init
-genticode init
-genticode check
-genticode baseline capture
-genticode report --html
+genticode init                      # creates .genticode/*
+genticode check                     # run packs
+genticode baseline capture          # record today's state
+genticode report --html             # render a human report
 open .genticode/report.html
 ```
 
 Minimal policy (`.genticode/policy.yaml`):
+
 ```yaml
 version: 1
 packs:
@@ -83,11 +54,104 @@ progressive_enforcement: {phase: new_code_only}
 
 ---
 
+## What Genticode does
+
+- **Packs**: Static (SAST+secrets), Supply (SBOM+licenses+vulns), Quality (linters+flakes), Trace (AC↔tests), Prompt hygiene.
+- **Normalize**: one schema across tools.
+- **Gate**: budgets + progressive phases (warn → new‑code‑only → block).
+- **Outputs**: JSON → SARIF → HTML. Everything is reproducible.
+
+<p align="center">
+  <img src="images/05_pack_mapping.png" alt="Packs to Outputs" width="520"/>
+</p>
+
+---
+
+## How it fits your AI workflow
+
+Use Genticode **alongside** Copilot, Cursor, Continue, or your agent.
+- Keep coding as usual. Run `genticode check` locally or in CI.
+- **Prompt hygiene** extracts prompt‑like strings, IDs them, and detects drift.
+- **MPI mindset**: gate on minimum‑plausible implementation by budget and policy.
+- **No IDE lock‑in**: SARIF annotates PRs; HTML for humans.
+
+<p align="center">
+  <img src="images/02_pipeline.png" alt="Pipeline" width="720"/>
+</p>
+
+---
+
+## The Lessons Loop (central)
+
+A multi‑pass, evidence‑driven loop to improve outcomes **without test nerfs**.
+
+1. Run full suite once per attempt with timeouts.
+2. Adjudicate failures using strict branches: **CODE_FIX**, **TEST_UPDATE** (must cite requirement), **HARNESS_UPDATE**, **FLAKY**, **REQUIREMENT_GAP**, **KNOWN_FAIL**.
+3. Write 5‑Whys lessons; merge into `LESSONS_CURRENT.md`.
+4. Reset to pre‑sprint tag; rebuild with lessons; retry. Cap attempts; split scope if repeats.
+5. Test edits require waivers; deletions blocked.
+
+<p align="center">
+  <img src="images/03_lessons_loop.png" alt="Lessons Loop" width="720"/>
+</p>
+
+---
+
+## Policy phases and budgets
+
+- Phases: **warn** → **new‑code‑only** → **block**.
+- Budgets: secrets=0, deny AGPL, unknown license=fail, custom SAST thresholds.
+- Baselines ensure old debt doesn’t stop progress.
+
+<p align="center">
+  <img src="images/04_policy_phases.png" alt="Policy & Budgets" width="720"/>
+</p>
+
+### Presets (DX)
+Switch between presets instead of hand‑editing YAML.
+```yaml
+preset: lite      # lite|team|regulated
+```
+- **lite**: warn‑only, fast checks.
+- **team**: new‑code‑only gates, SBOM on CI.
+- **regulated**: hard gates, evidence bundles.
+
+---
+
+## Example: catching AI “confidence” bugs
+
+> A refactor suggestion imported a non‑existent helper and removed an invariant check.
+
+Genticode surfaced:
+- **Static**: unresolved import.
+- **Trace**: AC mismatch vs tests.
+- **Quality**: flake in async wait.
+- Gate failed in **new‑code‑only**; Lessons added “never remove invariant X; add unit test Y.” Second attempt passed without weakening tests.
+
+---
+
+## Integrations
+
+- **CI**: GitHub Actions/other CI via `genticode check && genticode gate`.
+- **PR review**: upload SARIF; link HTML report.
+- **Pre‑commit**: run fast packs locally; enforce secrets=0.
+- **SBOM**: CycloneDX; license policy in budgets.
+
+---
+
+## Roadmap highlights
+
+- **Telemetry + Mistakes DB**: empirical hints from your own history.
+- **Batching & ordering**: safe, deterministic, telemetry‑aware.
+- **TUI polish**: guided onboarding, presets selector, dashboard.
+
+---
+
 ## Contributing
 
-- Keep coverage ≥95% for changed code.  
-- Run `scripts/guard.sh` before pushing; never commit secrets.  
-- Include an AC checklist in PRs and link to `.genticode/report.html` if relevant.
+- Keep coverage ≥95% for changed code.
+- Run `scripts/guard.sh` before pushing; never commit secrets.
+- Include an AC checklist in PRs and link to `.genticode/report.html` when relevant.
 
 ## License
 
