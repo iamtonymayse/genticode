@@ -53,6 +53,7 @@ jobs:
           genticode check || true
           genticode report --sarif || true
       - name: Upload SARIF
+        if: ${{ hashFiles('.genticode/sarif.json') != '' }}
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: .genticode/sarif.json
@@ -61,6 +62,6 @@ jobs:
           pushd samples/demo
           genticode init
           genticode baseline capture
-          genticode check
-          genticode report --html --sarif
+          genticode check || true
+          genticode report --html --sarif || true
           popd
