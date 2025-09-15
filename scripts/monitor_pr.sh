@@ -60,24 +60,26 @@ echo "Head: ${head_label} @ ${head_sha}"
 # 2) Fetch check runs for the head SHA
 checks_json=$(get_json "/repos/${owner}/${repo}/commits/${head_sha}/check-runs")
 
-total=$(jq -r .total_count <<<"$checks_json")
-names=$(jq -r '.check_runs[].name' <<<"$checks_json" | wc -l | tr -d ' ')
+# Consider only the latest run per check name (dedupe across retries)
+latest_json=$(jq '{check_runs: ( [.check_runs | group_by(.name)[] | max_by(.started_at // .completed_at // .id)] ) }' <<<"$checks_json")
 
-# Tally conclusions and statuses
-success=$(jq -r '[.check_runs[] | select(.conclusion=="success")] | length' <<<"$checks_json")
-failure=$(jq -r '[.check_runs[] | select(.conclusion=="failure")] | length' <<<"$checks_json")
-cancelled=$(jq -r '[.check_runs[] | select(.conclusion=="cancelled")] | length' <<<"$checks_json")
-timed_out=$(jq -r '[.check_runs[] | select(.conclusion=="timed_out")] | length' <<<"$checks_json")
-action_required=$(jq -r '[.check_runs[] | select(.conclusion=="action_required")] | length' <<<"$checks_json")
-neutral=$(jq -r '[.check_runs[] | select(.conclusion=="neutral")] | length' <<<"$checks_json")
-skipped=$(jq -r '[.check_runs[] | select(.conclusion=="skipped")] | length' <<<"$checks_json")
-queued=$(jq -r '[.check_runs[] | select(.status=="queued")] | length' <<<"$checks_json")
-in_progress=$(jq -r '[.check_runs[] | select(.status=="in_progress")] | length' <<<"$checks_json")
+total=$(jq -r '.check_runs | length' <<<"$latest_json")
+
+# Tally conclusions and statuses from latest set
+success=$(jq -r '[.check_runs[] | select(.conclusion=="success")] | length' <<<"$latest_json")
+failure=$(jq -r '[.check_runs[] | select(.conclusion=="failure")] | length' <<<"$latest_json")
+cancelled=$(jq -r '[.check_runs[] | select(.conclusion=="cancelled")] | length' <<<"$latest_json")
+timed_out=$(jq -r '[.check_runs[] | select(.conclusion=="timed_out")] | length' <<<"$latest_json")
+action_required=$(jq -r '[.check_runs[] | select(.conclusion=="action_required")] | length' <<<"$latest_json")
+neutral=$(jq -r '[.check_runs[] | select(.conclusion=="neutral")] | length' <<<"$latest_json")
+skipped=$(jq -r '[.check_runs[] | select(.conclusion=="skipped")] | length' <<<"$latest_json")
+queued=$(jq -r '[.check_runs[] | select(.status=="queued")] | length' <<<"$latest_json")
+in_progress=$(jq -r '[.check_runs[] | select(.status=="in_progress")] | length' <<<"$latest_json")
 
 echo "Checks: total=${total} (success=${success}, failed=${failure}, cancelled=${cancelled}, timed_out=${timed_out}, action_required=${action_required}, neutral=${neutral}, skipped=${skipped}, queued=${queued}, in_progress=${in_progress})"
 
 # 3) Summarize failing checks
-fail_list=$(jq -r '.check_runs[] | select((.conclusion=="failure") or (.conclusion=="timed_out") or (.conclusion=="cancelled") or (.conclusion=="action_required")) | "- " + .name + " — " + (.details_url // .html_url // "")' <<<"$checks_json")
+fail_list=$(jq -r '.check_runs[] | select((.conclusion=="failure") or (.conclusion=="timed_out") or (.conclusion=="cancelled") or (.conclusion=="action_required")) | "- " + .name + " — " + (.details_url // .html_url // "")' <<<"$latest_json")
 
 if [[ -n "$fail_list" ]]; then
   echo "Failing checks:" && echo "$fail_list"
