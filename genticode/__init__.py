@@ -2,5 +2,4 @@ __all__ = [
     "main",
 ]
 
-VERSION = "0.1a"
-
+VERSION = "1.0.1"

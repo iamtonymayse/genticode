@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "genticode"
-version = "0.1a"
+version = "1.0.1"
 description = "Genticode: local-first quality, security, and governance packs with reports"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -27,4 +27,3 @@ include-package-data = true
 where = ["."]
 include = ["genticode*"]
 exclude = ["tests*"]
-
