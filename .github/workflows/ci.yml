@@ -47,15 +47,15 @@ jobs:
           python -m pipx install .
           genticode --version || true
           # Dogfood: baseline first to make new_code_only deltas zero on first run
-          python -m genticode init
-          python -m genticode baseline capture
-          python -m genticode check
-          python -m genticode report --sarif
+          genticode init
+          genticode baseline capture
+          genticode check
+          genticode report --sarif
       - name: Generate SARIF
         run: |
           # Duplicate generation in repo root for convenience
-          python -m genticode check || true
-          python -m genticode report --sarif || true
+          genticode check || true
+          genticode report --sarif || true
       - name: Upload SARIF
         uses: github/codeql-action/upload-sarif@v3
         with:
@@ -63,8 +63,8 @@ jobs:
       - name: Sample E2E in samples/demo
         run: |
           pushd samples/demo
-          python -m genticode init
-          python -m genticode baseline capture
-          python -m genticode check
-          python -m genticode report --html --sarif
+          genticode init
+          genticode baseline capture
+          genticode check
+          genticode report --html --sarif
           popd
